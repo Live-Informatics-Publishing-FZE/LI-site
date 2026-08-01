@@ -4,6 +4,8 @@ import { t, fdate, type Lang } from '../i18n/ui';
 import { render } from 'astro:content';
 const { lang, audience, path, key, entry } = Astro.props;
 const { Content } = await render(entry);
+const slug = String(entry.id).split('/').pop().replace(/\.md$/, '');
+const leadSrc = entry.data.image || `/assets/articles/${slug}.jpg`;
 const words = (entry.body || '').split(/\s+/).length;
 const mins = Math.max(1, Math.round(words / 200));
 ---
@@ -15,7 +17,7 @@ const mins = Math.max(1, Math.round(words / 200));
   <p class="lbl">{t(lang, key)}</p>
   <h1 style="margin-block-start:.5rem">{entry.data.title}</h1>
   <p class="meta"><span>{fdate(entry.data.date)}</span><span>{mins} {t(lang,'minRead')}</span></p>
-  <LeadImage src={entry.data.image} alt={entry.data.image_alt} seed={entry.slug || entry.id} />
+  <LeadImage src={leadSrc} alt={entry.data.image_alt} seed={slug} />
   <p style="font-size:var(--s-1);font-weight:500;color:var(--slate);margin-block-end:2rem">{entry.data.seo_description}</p>
   <Content />
 </div></div></section>
