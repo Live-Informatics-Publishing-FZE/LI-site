@@ -1,0 +1,19 @@
+---
+import Base from '../../../../layouts/Base.astro';
+import SectionList from '../../../../components/SectionList.astro';
+import { t, langs, type Lang } from '../../../../i18n/ui';
+import { SECTION_MAP } from '../../../../lib/sections';
+
+export function getStaticPaths(){
+  const out: any[] = [];
+  for (const lang of langs) for (const section of Object.keys(SECTION_MAP['schools']))
+    out.push({ params:{ lang, section } });
+  return out;
+}
+const lang = Astro.params.lang as Lang;
+const section = Astro.params.section as string;
+const m = SECTION_MAP['schools'][section];
+---
+<Base lang={lang} title={`${t(lang, m.key)} — Live Informatics Publishing`} path={`schools/${section}/`}>
+  <SectionList lang={lang} audience="schools" path={section} sec={m.sec} key={m.key} />
+</Base>

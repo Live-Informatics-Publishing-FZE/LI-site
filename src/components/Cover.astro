@@ -1,0 +1,9 @@
+---
+const { code, name, nameAr = '', pub = true, src = '', i = 0, big = false } = Astro.props;
+const tint = `color-mix(in srgb, var(--ink) ${Math.max(70, 100 - i * 10)}%, #FFFFFF)`;
+---
+<div class={`cv ${pub ? '' : 'soon'} ${big ? 'bigcv' : ''}`} style={pub ? `--tint:${tint}` : ''}>
+  <span class="code">{code}</span>
+  {src && <img src={src} alt="" />}
+  <span class="tt">{name}{nameAr && <span class="a">{nameAr}</span>}</span>
+</div>

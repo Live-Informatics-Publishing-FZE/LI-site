@@ -1,0 +1,25 @@
+legal_name: Live Informatics Publishing FZE
+legal_name_ar: لايف إنفورماتيكس للنشر م م ح
+legal_form: Free Zone Establishment (FZE)
+founded: 2026
+jurisdiction: Sharjah Publishing City Free Zone (SPC FZ), Sharjah, UAE
+licence_number: "4430646.01"
+registration_number: "4430646"
+activities:
+  - Educational Books Publishing
+  - E-books Publishing
+address: Business Centre, Sharjah Publishing City Free Zone, Sharjah, UAE
+email: mail@libooks.ae
+phone: "+971 50 543 7974"
+hours: ""          # НУЖНО
+website: libooks.ae
+documents:
+  - label_en: Business licence
+    label_ar: الرخصة التجارية
+    file: /assets/docs/business-licence.pdf
+  - label_en: Certificate of formation
+    label_ar: شهادة التأسيس
+    file: /assets/docs/certificate-of-formation.pdf
+  - label_en: Memorandum of association
+    label_ar: عقد التأسيس
+    file: /assets/docs/memorandum-of-association.pdf

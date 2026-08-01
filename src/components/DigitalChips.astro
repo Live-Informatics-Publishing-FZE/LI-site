@@ -1,0 +1,18 @@
+---
+import { t, type Lang } from '../i18n/ui';
+const { digital = {}, lang = 'en' as Lang } = Astro.props;
+const LBL: Record<string, 'eTextbook'|'trainers'|'aiTutor'> = {
+  e_textbook: 'eTextbook', trainers: 'trainers', ai_tutor: 'aiTutor'
+};
+const keys = Object.keys(digital || {});
+---
+{keys.length > 0 && (
+  <div class="dig">
+    {keys.map(k => {
+      const on = digital[k] === 'available';
+      return <span class="dchip" data-off={String(!on)}>
+        {t(lang, LBL[k] ?? 'trainers')}{!on && ` · ${t(lang,'soon')}`}
+      </span>;
+    })}
+  </div>
+)}

@@ -1,0 +1,66 @@
+---
+import Base from '../../layouts/Base.astro';
+import OrgCard from '../../components/OrgCard.astro';
+import DocLinks from '../../components/DocLinks.astro';
+import LeadImage from '../../components/LeadImage.astro';
+import { t, langs, fdate, type Lang } from '../../i18n/ui';
+import { getPage, getSeries, getStrands } from '../../lib/data';
+import { getNews } from '../../lib/data';
+export function getStaticPaths(){ return langs.map(lang => ({ params:{ lang } })); }
+const lang = Astro.params.lang as Lang;
+const page = await getPage(lang,'about');
+const d: any = page?.data ?? {};
+const series = await getSeries(lang);
+const strands = await getStrands(lang);
+const news = (await getNews(lang)).slice(0,3);
+---
+<Base lang={lang} title={d.seo_title || d.title} description={d.seo_description} path="about/">
+  <div class="wrap"><div class="crumb"><span>{d.title}</span></div></div>
+
+  <section style="padding-block:clamp(1.5rem,4vw,3rem)"><div class="wrap">
+    <p class="lbl">Live Informatics Publishing FZE</p>
+    {(d.lead||[]).map((l:string,i:number) => i===0
+      ? <p class="ab-lede" style="margin-block-start:1rem">{l}</p>
+      : <p style="color:var(--slate);max-inline-size:52ch;margin-block-start:1.2rem;font-size:var(--s-1)">{l}</p>)}
+  </div></section>
+
+  <section class="band"><div class="wrap">
+    {(d.blocks||[]).map((b:any) =>
+      <div class={`two ${b.image_side==='start'?'flip':''}`} style="margin-block-end:clamp(2rem,5vw,3.5rem)">
+        <div><h3 style="font-size:var(--s-2);margin-block-end:1rem">{b.heading}</h3>
+          <p style="color:var(--slate)">{b.body}</p></div>
+        <LeadImage src={b.image} alt={b.image_alt} seed={b.heading} ratio="4/3" />
+      </div>)}
+    <div class="banner">
+      <p class="lbl" style="color:color-mix(in srgb,var(--paper) 55%,transparent)">{t(lang,'ourPosition')}</p>
+      <p style="font-size:var(--s-2);line-height:1.3;margin-block-start:.8rem;max-inline-size:46ch;color:var(--paper)">{d.banner}</p>
+    </div>
+  </div></section>
+
+  <section class="band"><div class="wrap">
+    <div class="bh"><div><p class="lbl">{t(lang,'series')}</p><h2>{d.series_heading}</h2></div></div>
+    <div class="sgrid">{series.map(s => {
+      const empty = !strands.some(st => st.data.series === s.slug);
+      return <a class="scard" data-empty={String(empty)} href={empty?undefined:`/${lang}/series/${s.slug}/`}>
+        <div class="nmstack"><span class="nm-ar">{s.data.name_ar}</span><h3>{s.data.name.toUpperCase()}</h3>
+          <span class="lbl">{t(lang,'series')} · {s.data.metaphor}</span></div>
+        <p>{s.data.short}</p></a>;})}</div>
+  </div></section>
+
+  <section class="band"><div class="wrap">
+    <div class="bh"><div><p class="lbl">{t(lang,'news')}</p><h2>{d.news_heading}</h2></div>
+      <a class="note" href={`/${lang}/news/`} style="color:var(--gold-dp)">{t(lang,'archive')} →</a></div>
+    <div class="mos">{news.map((n,i) =>
+      <a class={`ncard ${i===0?'big':''}`} href={n.data.link || `/${lang}/news/`}>
+        <span class="lbl">{fdate(n.data.date)}</span><h4>{n.data.title}</h4><p>{(n.data as any).body}</p></a>)}</div>
+  </div></section>
+
+  <section class="band"><div class="wrap">
+    <div class="bh"><div><p class="lbl">{t(lang,'officialInfo')}</p><h2>{d.organisation_heading}</h2></div></div>
+    <OrgCard lang={lang} />
+    <p class="lbl" style="margin-block-start:1.1rem">{d.documents_note}</p>
+    <DocLinks lang={lang} />
+    <div class="acts" style="margin-block-start:1.8rem">
+      <a class="btn" href={`/${lang}/contact/`}>{t(lang,'contactUs')}</a></div>
+  </div></section>
+</Base>

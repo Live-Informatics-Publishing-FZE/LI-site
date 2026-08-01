@@ -1,0 +1,21 @@
+---
+import { t, type Lang } from '../i18n/ui';
+import { org } from '../lib/org';
+const { lang = 'en' as Lang } = Astro.props;
+const rows: [string, string][] = [
+  [t(lang,'legalName'), lang==='ar' ? org.legal_name_ar : org.legal_name],
+  [t(lang,'legalForm'), org.legal_form],
+  [t(lang,'founded'), String(org.founded)],
+  [t(lang,'jurisdiction'), org.jurisdiction],
+  [t(lang,'licence'), org.licence_number],
+  [t(lang,'regNo'), org.registration_number],
+  [t(lang,'activities'), (org.activities || []).join(' · ')],
+  [t(lang,'address'), org.address],
+  ['Email', org.email],
+  [t(lang,'phone'), org.phone],
+  [t(lang,'website'), org.website]
+];
+---
+<div class="legalcard"><dl>
+  {rows.map(([k,v]) => v && <div class="row"><dt>{k}</dt><dd>{v}</dd></div>)}
+</dl></div>

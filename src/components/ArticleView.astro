@@ -1,0 +1,21 @@
+---
+import LeadImage from './LeadImage.astro';
+import { t, fdate, type Lang } from '../i18n/ui';
+import { render } from 'astro:content';
+const { lang, audience, path, key, entry } = Astro.props;
+const { Content } = await render(entry);
+const words = (entry.body || '').split(/\s+/).length;
+const mins = Math.max(1, Math.round(words / 200));
+---
+<div class="wrap"><div class="crumb">
+  <a href={`/${lang}/${audience}/`}>{t(lang, audience==='parents'?'parents':'schools')}</a><span class="sp">/</span>
+  <a href={`/${lang}/${audience}/${path}/`}>{t(lang, key)}</a><span class="sp">/</span>
+  <span>{fdate(entry.data.date)}</span></div></div>
+<section style="padding-block:clamp(1.4rem,4vw,2.4rem)"><div class="wrap"><div class="art">
+  <p class="lbl">{t(lang, key)}</p>
+  <h1 style="margin-block-start:.5rem">{entry.data.title}</h1>
+  <p class="meta"><span>{fdate(entry.data.date)}</span><span>{mins} {t(lang,'minRead')}</span></p>
+  <LeadImage src={entry.data.image} alt={entry.data.image_alt} seed={entry.slug || entry.id} />
+  <p style="font-size:var(--s-1);font-weight:500;color:var(--slate);margin-block-end:2rem">{entry.data.seo_description}</p>
+  <Content />
+</div></div></section>

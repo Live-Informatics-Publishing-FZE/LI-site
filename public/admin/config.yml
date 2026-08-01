@@ -1,0 +1,181 @@
+# Sveltia CMS — все подписи по-русски, контент коммитится в git
+backend:
+  name: github
+  repo: Live-Informatics-Publishing-FZE/libooks-site
+  branch: main
+  site_domain: libooks.ae
+
+publish_mode: editorial_workflow
+media_folder: "public/assets"
+public_folder: "/assets"
+
+collections:
+  - name: series
+    label: "Серии"
+    label_singular: "серия"
+    folder: "src/content/series"
+    path: "{{lang}}/{{slug}}"
+    create: true
+    identifier_field: name
+    summary: "{{name}} · {{lang}}"
+    fields:
+      - { name: lang, label: "Язык", widget: select, options: ["en","ar"] }
+      - { name: dir, label: "Направление письма", widget: hidden, default: "ltr" }
+      - { name: name, label: "Название латиницей", widget: string, hint: "Manara, Isharat, Qalam" }
+      - { name: name_ar, label: "Название по-арабски", widget: string }
+      - { name: code, label: "Код серии", widget: string, hint: "Три буквы: MNR, ISH, QLM" }
+      - { name: metaphor, label: "Метафора", widget: string, hint: "lighthouse, signals, pen" }
+      - { name: order, label: "Порядок вывода", widget: number, value_type: int, default: 1 }
+      - { name: logo, label: "Логотип", widget: image, required: false }
+      - { name: short, label: "Краткое описание", widget: text, hint: "До 200 знаков. Показывается на карточке" }
+      - { name: description, label: "Описание", widget: text, hint: "2–3 предложения. Раскрывающийся блок и шапка серии" }
+      - { name: seo_title, label: "SEO: заголовок", widget: string, required: false }
+      - { name: seo_description, label: "SEO: описание", widget: text, required: false }
+
+  - name: strands
+    label: "Линейки"
+    label_singular: "линейка"
+    folder: "src/content/strands"
+    path: "{{lang}}/{{slug}}"
+    create: true
+    identifier_field: name
+    summary: "{{name}} · {{lang}}"
+    fields:
+      - { name: lang, label: "Язык", widget: select, options: ["en","ar"] }
+      - { name: dir, label: "Направление письма", widget: hidden, default: "ltr" }
+      - { name: series, label: "Серия", widget: select, options: ["manara","isharat","qalam"] }
+      - { name: name, label: "Название латиницей", widget: string }
+      - { name: name_ar, label: "Название по-арабски", widget: string, required: false }
+      - { name: order, label: "Порядок вывода", widget: number, value_type: int, default: 1 }
+      - { name: stage, label: "Этап обучения", widget: string, required: false, hint: "Pre-school, School years — шкала обсуждается" }
+      - name: digital
+        label: "Цифровая часть"
+        widget: object
+        required: false
+        hint: "Не ставьте то, чего в продукте нет"
+        fields:
+          - { name: e_textbook, label: "Электронный учебник", widget: select, options: ["available","forthcoming"], required: false }
+          - { name: trainers, label: "Тренажёры", widget: select, options: ["available","forthcoming"], required: false }
+          - { name: ai_tutor, label: "ИИ-помощник", widget: select, options: ["available","forthcoming"], required: false }
+      - { name: systemic_problem, label: "Системная проблема", widget: text, required: false, hint: "До 400 знаков. Самый сильный блок на странице серии" }
+      - { name: description, label: "Описание", widget: text, hint: "2–3 предложения" }
+
+  - name: books
+    label: "Издания"
+    label_singular: "издание"
+    folder: "src/content/books"
+    path: "{{lang}}/{{slug}}"
+    create: true
+    identifier_field: title
+    summary: "{{strand}} {{number}} · {{lang}}"
+    fields:
+      - { name: lang, label: "Язык", widget: select, options: ["en","ar"] }
+      - { name: dir, label: "Направление письма", widget: hidden, default: "ltr" }
+      - { name: strand, label: "Линейка", widget: string, hint: "manara-web-lab, isharat-little-tamers" }
+      - { name: number, label: "Номер в линейке", widget: number, value_type: int }
+      - { name: of, label: "Всего в линейке", widget: number, value_type: int }
+      - { name: title, label: "Название", widget: string, required: false, hint: "Пусто — страница покажет пометку, что название не выбрано" }
+      - { name: slogan, label: "Слоган", widget: string, required: false }
+      - { name: status, label: "Статус", widget: select, required: false, options: ["available","forthcoming","in-preparation","out-of-print"], hint: "Пусто — на странице встанет пометка «статус не задан»" }
+      - { name: age, label: "Возраст", widget: string, required: false }
+      - { name: grade, label: "Класс", widget: string, required: false }
+      - { name: pages, label: "Страниц", widget: string, required: false }
+      - { name: format, label: "Формат", widget: string, required: false }
+      - { name: binding, label: "Переплёт", widget: string, required: false }
+      - { name: isbn, label: "ISBN", widget: string, required: false }
+      - { name: cover, label: "Обложка", widget: image, required: false, hint: "Пусто — обложка соберётся автоматически" }
+      - { name: description, label: "Описание", widget: text, required: false }
+      - name: contents
+        label: "Что внутри"
+        widget: list
+        required: false
+        fields:
+          - { name: name, label: "Пункт", widget: string }
+          - { name: note, label: "Пояснение", widget: string, required: false }
+
+  - name: articles
+    label: "Статьи и материалы"
+    label_singular: "статья"
+    folder: "src/content/articles"
+    path: "{{lang}}/{{slug}}"
+    create: true
+    identifier_field: title
+    summary: "{{title}} · {{lang}}"
+    fields:
+      - { name: lang, label: "Язык", widget: select, options: ["en","ar"] }
+      - { name: dir, label: "Направление письма", widget: hidden, default: "ltr" }
+      - { name: title, label: "Заголовок", widget: string }
+      - name: section
+        label: "Раздел"
+        widget: select
+        options:
+          - { label: "Родителям · подсказки", value: "tips-for-parents" }
+          - { label: "Родителям · материалы для детей", value: "extra-materials" }
+          - { label: "Школам · методические материалы", value: "teaching-materials" }
+          - { label: "Школам · статьи по методике", value: "methodology" }
+      - { name: audience, label: "Аудитория", widget: select, options: ["parents","schools"] }
+      - { name: date, label: "Дата", widget: datetime, date_format: "YYYY-MM-DD", time_format: false }
+      - { name: seo_description, label: "Подзаголовок", widget: text, hint: "Одно предложение. Идёт и на карточку, и в поисковую выдачу" }
+      - { name: seo_title, label: "SEO: заголовок", widget: string, required: false }
+      - { name: image, label: "Изображение", widget: image, required: false, hint: "Пусто — встанет фирменная заставка" }
+      - { name: image_alt, label: "Описание изображения", widget: string, required: false }
+      - { name: trainer_url, label: "Адрес тренажёра", widget: string, required: false }
+      - { name: body, label: "Текст", widget: markdown }
+
+  - name: news
+    label: "Новости"
+    label_singular: "новость"
+    folder: "src/content/news"
+    path: "{{lang}}/{{year}}-{{month}}-{{day}}-{{slug}}"
+    create: true
+    identifier_field: title
+    summary: "{{date}} · {{title}}"
+    fields:
+      - { name: lang, label: "Язык", widget: select, options: ["en","ar"] }
+      - { name: dir, label: "Направление письма", widget: hidden, default: "ltr" }
+      - { name: title, label: "Заголовок", widget: string }
+      - { name: date, label: "Дата", widget: datetime, date_format: "YYYY-MM-DD", time_format: false }
+      - { name: body, label: "Текст", widget: text, hint: "До 300 знаков" }
+      - { name: link, label: "Ссылка", widget: string, required: false, hint: "Куда ведёт карточка" }
+      - { name: image, label: "Изображение", widget: image, required: false }
+      - { name: image_alt, label: "Описание изображения", widget: string, required: false }
+
+  - name: pages
+    label: "Страницы"
+    folder: "src/content/pages"
+    path: "{{lang}}/{{slug}}"
+    create: false
+    fields:
+      - { name: lang, label: "Язык", widget: select, options: ["en","ar"] }
+      - { name: title, label: "Заголовок", widget: string }
+      - { name: seo_title, label: "SEO: заголовок", widget: string, required: false }
+      - { name: seo_description, label: "SEO: описание", widget: text, required: false }
+      - { name: body, label: "Текст", widget: markdown, required: false }
+
+  - name: singletons
+    label: "Реквизиты"
+    files:
+      - name: organization
+        label: "Данные организации"
+        file: "src/content/singletons/organization.yml"
+        fields:
+          - { name: legal_name, label: "Юридическое название", widget: string }
+          - { name: legal_name_ar, label: "Название по-арабски", widget: string }
+          - { name: legal_form, label: "Организационная форма", widget: string }
+          - { name: founded, label: "Год основания", widget: string }
+          - { name: jurisdiction, label: "Юрисдикция", widget: string }
+          - { name: licence_number, label: "Номер лицензии", widget: string }
+          - { name: registration_number, label: "Регистрационный номер", widget: string }
+          - { name: activities, label: "Виды деятельности", widget: list }
+          - { name: address, label: "Адрес", widget: string }
+          - { name: email, label: "Почта", widget: string }
+          - { name: phone, label: "Телефон", widget: string }
+          - { name: hours, label: "Часы работы", widget: string, required: false }
+          - { name: website, label: "Сайт", widget: string }
+          - name: documents
+            label: "Уставные документы"
+            widget: list
+            fields:
+              - { name: label_en, label: "Название (англ.)", widget: string }
+              - { name: label_ar, label: "Название (араб.)", widget: string }
+              - { name: file, label: "Файл PDF", widget: file }

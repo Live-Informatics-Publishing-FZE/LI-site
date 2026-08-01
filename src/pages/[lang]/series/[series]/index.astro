@@ -1,0 +1,78 @@
+---
+import Base from '../../../../layouts/Base.astro';
+import DigitalChips from '../../../../components/DigitalChips.astro';
+import { t, langs, type Lang } from '../../../../i18n/ui';
+import { getSeries, getStrands, getBooks, isPublished, statusOf, strandPath } from '../../../../lib/data';
+export async function getStaticPaths(){
+  const out: any[] = [];
+  for (const lang of langs) for (const s of await getSeries(lang))
+    out.push({ params:{ lang, series: s.slug } });
+  return out;
+}
+const lang = Astro.params.lang as Lang;
+const seriesSlug = Astro.params.series as string;
+const s = (await getSeries(lang)).find(x => x.slug === seriesSlug)!;
+const strands = await getStrands(lang, seriesSlug);
+const books = await getBooks(lang);
+---
+<Base lang={lang} title={`${s.data.name} — Live Informatics Publishing`} description={s.data.short} path={`series/${seriesSlug}/`}>
+  <div class="wrap"><div class="crumb">
+    <a href={`/${lang}/series/`}>{t(lang,'series')}</a><span class="sp">/</span><span>{s.data.name}</span></div></div>
+
+  <div class="wrap shero"><div class="two" style="align-items:start">
+    <div>
+      <p class="lbl">{t(lang,'series')} · {s.data.code}</p>
+      <div class="nmstack" style="margin-block-start:.6rem">
+        <span class="nm-ar" style="font-size:var(--s-2)">{s.data.name_ar}</span>
+        <h1 style="letter-spacing:.03em">{s.data.name.toUpperCase()}</h1>
+        <span class="lbl">{t(lang,'series')} · {s.data.metaphor}</span>
+      </div>
+      <p class="lede">{s.data.description}</p>
+    </div>
+    <span class="plate lg">
+      <img src={s.data.logo} alt={s.data.name} onerror="this.remove()" />
+      <span class="ph">{s.data.name_ar}</span>
+    </span>
+  </div></div>
+
+  <section class="lineblk"><div class="wrap">
+    {strands.length === 0
+      ? <><p class="lbl">{t(lang,'inPrep')}</p><p style="color:var(--slate);margin-block-start:.8rem">{t(lang,'noStrands')}</p></>
+      : <>
+        <div class="bh"><div><p class="lbl">{t(lang,'strands')}</p>
+          <h2 style="font-size:var(--s-2)">{t(lang,'openStrand')}</h2></div></div>
+        {strands.map((l,li) => {
+          const bs = books.filter(b => b.data.strand === l.slug);
+          const out = bs.filter(b => isPublished(b.data)).length;
+          return <details class="acc" open={li===0}>
+            <summary>
+              <h3>{l.data.name}</h3>
+              {l.data.name_ar && <span class="nm-ar">{l.data.name_ar}</span>}
+              {l.data.stage && <span class="stage">{l.data.stage}</span>}
+              <span class="meta">{out}/{bs.length} {t(lang,'out')}</span>
+              <span class="chev">+</span>
+            </summary>
+            <div class="acc-body" style="grid-template-columns:1fr">
+              <div class="txt" style="align-items:stretch">
+                <p style="color:var(--slate)">{l.data.description}</p>
+                <DigitalChips digital={l.data.digital} lang={lang} />
+                {l.data.systemic_problem &&
+                  <div class="problem"><p class="lbl">{t(lang,'gap')}</p><p>{l.data.systemic_problem}</p></div>}
+                <ul class="bklist">
+                  {bs.map(b => {
+                    const st = statusOf(b.data, lang);
+                    const name = b.data.title || b.data.slogan || t(lang,'inPrep');
+                    const num = String(b.data.number).padStart(2,'0');
+                    const chip = <span class="st" style={st.pending ? 'border-style:dashed' : ''}>{t(lang, st.key)}</span>;
+                    return isPublished(b.data)
+                      ? <li><a href={`/${lang}/series/${seriesSlug}/${strandPath(l.slug, seriesSlug)}/${b.data.number}/`}>
+                          <span class="n">{num}</span><span>{name}</span>{chip}</a></li>
+                      : <li><span class="off"><span class="n">{num}</span><span>{name}</span>{chip}</span></li>;
+                  })}
+                </ul>
+              </div>
+            </div>
+          </details>;})}
+      </>}
+  </div></section>
+</Base>

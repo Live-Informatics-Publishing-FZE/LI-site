@@ -1,0 +1,50 @@
+---
+import Base from '../../../layouts/Base.astro';
+import LeadImage from '../../../components/LeadImage.astro';
+import { t, langs, type Lang } from '../../../i18n/ui';
+import { getPage, getSeries, getStrands, getBooks } from '../../../lib/data';
+export function getStaticPaths(){ return langs.map(lang => ({ params:{ lang } })); }
+const lang = Astro.params.lang as Lang;
+const page = await getPage(lang,'series');
+const d: any = page?.data ?? {};
+const series = await getSeries(lang);
+const strands = await getStrands(lang);
+const books = await getBooks(lang);
+---
+<Base lang={lang} title={d.seo_title || d.title} description={d.seo_description} path="series/">
+  <div class="wrap"><div class="crumb"><span>{t(lang,'series')}</span></div></div>
+  <section style="padding-block:clamp(1.5rem,4vw,2.8rem)"><div class="wrap">
+    <p class="lbl">{t(lang,'series')}</p>
+    <h1 style="font-size:var(--s-3);margin-block-start:.5rem;max-inline-size:24ch">{d.title}</h1>
+  </div></section>
+
+  <section class="band"><div class="wrap idea">
+    <LeadImage src={d.image} alt={d.image_alt} seed="series-intro" ratio="3/4" />
+    <p style="font-size:var(--s-1);line-height:1.55">{d.intro}</p>
+  </div></section>
+
+  <section class="band"><div class="wrap">
+    <div class="bh"><div><p class="lbl">{lang==='en'?'Three series':'ثلاث سلاسل'}</p>
+      <h2 style="font-size:var(--s-2)">{t(lang,'openSeries')}</h2></div></div>
+    {series.map((s,i) => {
+      const st = strands.filter(x => x.data.series === s.slug);
+      const n = books.filter(b => st.some(x => x.slug === b.data.strand)).length;
+      const empty = st.length === 0;
+      return <details class="acc" open={i===0}>
+        <summary>
+          <span class="nm-ar">{s.data.name_ar}</span>
+          <h3>{s.data.name.toUpperCase()}</h3>
+          <span class="meta">{t(lang,'series')} · {s.data.metaphor}</span>
+          <span class="meta">{empty ? t(lang,'inPrep') : `${st.length} ${t(lang,'strands')} · ${n} ${t(lang,'titles')}`}</span>
+          <span class="chev">+</span>
+        </summary>
+        <div class="acc-body">
+          <LeadImage src="" alt="" seed={s.slug} ratio="4/3" />
+          <div class="txt">
+            <p>{s.data.description}</p>
+            {!empty && <a class="btn" href={`/${lang}/series/${s.slug}/`}>{t(lang,'goToSeries')} →</a>}
+          </div>
+        </div>
+      </details>;})}
+  </div></section>
+</Base>

@@ -1,0 +1,8 @@
+---
+import { org } from '../lib/org';
+const { lang = 'en' } = Astro.props;
+---
+<ul class="doclist">
+  {(org.documents || []).map((d: any) =>
+    <li><a href={d.file}><span class="ext">PDF</span>{lang==='ar' ? d.label_ar : d.label_en}</a></li>)}
+</ul>

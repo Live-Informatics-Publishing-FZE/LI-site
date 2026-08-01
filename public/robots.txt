@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://libooks.ae/sitemap-index.xml

@@ -1,0 +1,24 @@
+---
+import Base from '../../../../layouts/Base.astro';
+import ArticleView from '../../../../components/ArticleView.astro';
+import { langs, type Lang } from '../../../../i18n/ui';
+import { SECTION_MAP } from '../../../../lib/sections';
+import { getArticles } from '../../../../lib/data';
+
+export async function getStaticPaths(){
+  const out: any[] = [];
+  for (const lang of langs) for (const section of Object.keys(SECTION_MAP['parents'])) {
+    for (const a of await getArticles(lang, SECTION_MAP['parents'][section].sec))
+      out.push({ params:{ lang, section, slug: a.slug }, props:{ entry: a } });
+  }
+  return out;
+}
+const lang = Astro.params.lang as Lang;
+const section = Astro.params.section as string;
+const m = SECTION_MAP['parents'][section];
+const { entry } = Astro.props;
+---
+<Base lang={lang} title={entry.data.seo_title || entry.data.title} description={entry.data.seo_description}
+      path={`parents/${section}/${Astro.params.slug}/`}>
+  <ArticleView lang={lang} audience="parents" path={section} key={m.key} entry={entry} />
+</Base>

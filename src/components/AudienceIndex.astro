@@ -1,0 +1,41 @@
+---
+import { t, fdate, type Lang } from '../i18n/ui';
+import { getArticles } from '../lib/data';
+const { lang, audience } = Astro.props as { lang: Lang, audience: 'parents'|'schools' };
+const map = {
+  parents: { titleKey:'parents' as const, subs:[
+    { sec:'tips-for-parents', path:'tips',      key:'tips' as const },
+    { sec:'extra-materials',  path:'materials', key:'extras' as const }]},
+  schools: { titleKey:'schools' as const, subs:[
+    { sec:'teaching-materials', path:'teaching',    key:'teaching' as const },
+    { sec:'methodology',        path:'methodology', key:'methodology' as const }]}
+};
+const A = map[audience];
+const arts = await getArticles(lang);
+const lede = audience==='parents'
+  ? (lang==='en' ? 'What to do when a child gets stuck, how much screen is enough, and what they can work on away from the lesson.'
+                 : 'ما العمل عندما يتعثّر الطفل، وكم من الشاشة يكفي، وما الذي يمكن العمل عليه خارج الدرس.')
+  : (lang==='en' ? 'Lesson plans built on the strands, and the reasoning behind the order they are in.'
+                 : 'خطط دروس مبنية على المسارات، ومنطق ترتيبها.');
+---
+<div class="wrap"><div class="crumb"><span>{t(lang, A.titleKey)}</span></div></div>
+<section style="padding-block:clamp(1.5rem,4vw,2.8rem)"><div class="wrap">
+  <p class="lbl">{t(lang,'materials')}</p>
+  <h1 style="font-size:var(--s-3);margin-block-start:.5rem;max-inline-size:22ch">{t(lang, A.titleKey)}</h1>
+  <p class="ab-lede" style="color:var(--slate);font-size:var(--s-1);margin-block-start:1rem;max-inline-size:48ch">{lede}</p>
+</div></section>
+<section class="band"><div class="wrap"><div class="split">
+  {A.subs.map(sub => {
+    const items = arts.filter(a => a.data.section === sub.sec);
+    return <div class="sc">
+      <p class="lbl">{t(lang,'section')}</p>
+      <h3>{t(lang, sub.key)}</h3>
+      <ul>
+        {items.map(a => <li><a href={`/${lang}/${audience}/${sub.path}/${a.slug}/`}
+            style="display:flex;justify-content:space-between;gap:1rem;padding-block:.85rem">
+            <span>{a.data.title}</span><span class="c">{fdate(a.data.date)}</span></a></li>)}
+        <li><a href={`/${lang}/${audience}/${sub.path}/`} style="display:flex;justify-content:space-between;padding-block:.85rem;color:var(--gold-dp)">
+          <span>{t(lang,'allInSection')}</span><span class="c">{items.length}</span></a></li>
+      </ul>
+    </div>;})}
+</div></div></section>

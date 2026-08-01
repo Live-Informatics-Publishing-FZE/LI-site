@@ -1,0 +1,96 @@
+---
+import Base from '../../layouts/Base.astro';
+import { t, langs, fdate, type Lang } from '../../i18n/ui';
+import { getSeries, getStrands, getBooks, getNews, getArticles } from '../../lib/data';
+export function getStaticPaths(){ return langs.map(lang => ({ params:{ lang } })); }
+const lang = Astro.params.lang as Lang;
+const series = await getSeries(lang);
+const strands = await getStrands(lang);
+const books = await getBooks(lang);
+const news = (await getNews(lang)).slice(0,3);
+const arts = await getArticles(lang);
+const ladder = lang === 'en'
+  ? ['Computer science is not only programming.','A textbook is not only a book.','Teaching is not only lessons.','Learning is not only skills — it is a way of seeing.']
+  : ['علوم الحاسوب ليست البرمجة وحدها.','والكتاب المدرسي ليس كتابًا فحسب.','والتعليم ليس دروسًا فحسب.','والتعلّم ليس مهارات فحسب، بل نظرة إلى العالم.'];
+const head = lang === 'en'
+  ? ['The digital world will be theirs to build.','Ours is the tool','they build it with.']
+  : ['العالم الرقمي سيبنونه هم.','ونحن مسؤولون','عن الأداة.'];
+const closing = lang === 'en'
+  ? 'This is not a book with an app attached. A printed workbook, an e-textbook, trainers and an AI tutor — one edition, designed whole.'
+  : 'هذا ليس كتابًا مُلحقًا بتطبيق. كتاب مطبوع، وكتاب إلكتروني، وتدريبات، ومساعد ذكي: عمل واحد مُصمَّم بكامله.';
+const surfaces = lang === 'en' ? [
+  ['Printed workbook','Definitions, explanations, and the order in which ideas arrive.'],
+  ['E-textbook','The same material, live — where a page cannot show how a thing behaves.'],
+  ['Online trainers','Practice for every topic, with the mistake addressed the moment it is made.'],
+  ['AI tutor','Bounded by what the child has covered. It explains as many times as needed and does not run ahead.']
+] : [
+  ['الكتاب المطبوع','التعريفات والشروح وترتيب المفاهيم.'],
+  ['الكتاب الإلكتروني','المادة نفسها، حيّة، حيث لا تكفي الصفحة لإظهار سلوك الشيء.'],
+  ['تدريبات تفاعلية','تدريب لكل موضوع، ومعالجة الخطأ في لحظة وقوعه.'],
+  ['المساعد الذكي','محدود بما درسه الطفل: يشرح بقدر ما يحتاج ولا يسبق المنهج.']
+];
+---
+<Base lang={lang} title="Live Informatics Publishing" description={closing} path="">
+  <section class="hero"><div class="wrap">
+    <h1>{head.map(l => <span>{l}</span>)}</h1>
+    <div class="ladder">{ladder.map(l => <p>{l}</p>)}</div>
+    <p class="sub">{closing}</p>
+    <div class="stats">
+      <span class="stat"><b>{series.length}</b> {t(lang,'series')}</span>
+      <span class="stat"><b>{strands.length}</b> {t(lang,'strands')}</span>
+      <span class="stat"><b>{books.length}</b> {t(lang,'titles')}</span>
+      <span class="stat">{t(lang,'schools')}</span>
+    </div>
+  </div><span class="rule"></span></section>
+
+  <section class="band"><div class="wrap">
+    <div class="bh"><div>
+      <p class="lbl">{lang==='en'?'One edition':'عمل واحد'}</p>
+      <h2>{lang==='en'?'Four surfaces, designed as one thing.':'أربع صور، تُصمَّم كشيء واحد.'}</h2>
+    </div><p class="note">{lang==='en'?'The teacher receives a lesson, not a book and a list of suggestions.':'يحصل المعلّم على درس جاهز، لا على كتاب وقائمة توصيات.'}</p></div>
+    <div class="surf">{surfaces.map(([h,p],i) =>
+      <div class={`sf ${i===3?'ai':''}`}><span class="n">{String(i+1).padStart(2,'0')}</span><h4>{h}</h4><p>{p}</p></div>)}
+    </div>
+  </div></section>
+
+  <section class="band"><div class="wrap">
+    <div class="bh"><div><p class="lbl">{t(lang,'series')}</p>
+      <h2>{lang==='en'?'Three series, each entered from a different direction.':'ثلاث سلاسل، لكل منها مدخل مختلف.'}</h2></div>
+      <a class="note" href={`/${lang}/series/`} style="color:var(--gold-dp)">{t(lang,'allSeries')} →</a></div>
+    <div class="sgrid">{series.map(s => {
+      const n = books.filter(b => strands.some(st => st.data.series===s.slug && st.slug===b.data.strand)).length;
+      const empty = !strands.some(st => st.data.series === s.slug);
+      return <a class="scard" data-empty={String(empty)} href={empty ? undefined : `/${lang}/series/${s.slug}/`}>
+        <div class="nmstack"><span class="nm-ar">{s.data.name_ar}</span><h3>{s.data.name.toUpperCase()}</h3>
+          <span class="lbl">{t(lang,'series')} · {s.data.metaphor}</span></div>
+        <p>{s.data.short}</p>
+        <span class="go">{empty ? t(lang,'inPrep') : `${n} ${t(lang,'titles')}`}<span class="ar-i">→</span></span>
+      </a>;})}</div>
+  </div></section>
+
+  <section class="band"><div class="wrap">
+    <div class="bh"><div><p class="lbl">{t(lang,'materials')}</p>
+      <h2>{lang==='en'?'Two ways in, depending on who holds the book.':'مدخلان، بحسب من يحمل الكتاب.'}</h2></div></div>
+    <div class="split">
+      <div class="sc"><p class="lbl">{t(lang,'parents')}</p><h3>{lang==='en'?'At home':'في البيت'}</h3>
+        <ul>
+          <li><a href={`/${lang}/parents/tips/`} style="display:flex;justify-content:space-between;padding-block:.85rem"><span>{t(lang,'tips')}</span><span class="c">{arts.filter(a=>a.data.section==='tips-for-parents').length}</span></a></li>
+          <li><a href={`/${lang}/parents/materials/`} style="display:flex;justify-content:space-between;padding-block:.85rem"><span>{t(lang,'extras')}</span><span class="c">{arts.filter(a=>a.data.section==='extra-materials').length}</span></a></li>
+        </ul></div>
+      <div class="sc"><p class="lbl">{t(lang,'schools')}</p><h3>{lang==='en'?'In the classroom':'في الصف'}</h3>
+        <ul>
+          <li><a href={`/${lang}/schools/teaching/`} style="display:flex;justify-content:space-between;padding-block:.85rem"><span>{t(lang,'teaching')}</span><span class="c">{arts.filter(a=>a.data.section==='teaching-materials').length}</span></a></li>
+          <li><a href={`/${lang}/schools/methodology/`} style="display:flex;justify-content:space-between;padding-block:.85rem"><span>{t(lang,'methodology')}</span><span class="c">{arts.filter(a=>a.data.section==='methodology').length}</span></a></li>
+        </ul></div>
+    </div>
+  </div></section>
+
+  <section class="band"><div class="wrap">
+    <div class="bh"><div><p class="lbl">{t(lang,'news')}</p><h2>{lang==='en'?'What is new':'الجديد'}</h2></div>
+      <a class="note" href={`/${lang}/news/`} style="color:var(--gold-dp)">{t(lang,'archive')} →</a></div>
+    <div class="mos">{news.map((n,i) =>
+      <a class={`ncard ${i===0?'big':''}`} href={n.data.link || `/${lang}/news/`}>
+        <span class="lbl">{fdate(n.data.date)}</span><h4>{n.data.title}</h4><p>{(n.data as any).body}</p></a>)}
+    </div>
+  </div></section>
+</Base>

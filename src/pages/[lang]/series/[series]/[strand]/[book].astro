@@ -1,0 +1,88 @@
+---
+import Base from '../../../../../layouts/Base.astro';
+import Cover from '../../../../../components/Cover.astro';
+import { t, langs, type Lang } from '../../../../../i18n/ui';
+import { getSeries, getStrands, getBooks, isPublished, statusOf, strandPath, bookCode } from '../../../../../lib/data';
+export async function getStaticPaths(){
+  const out: any[] = [];
+  for (const lang of langs) {
+    const strands = await getStrands(lang);
+    const books = await getBooks(lang);
+    for (const b of books) {
+      if (!isPublished(b.data)) continue;
+      const st = strands.find(x => x.slug === b.data.strand);
+      if (!st) continue;
+      out.push({ params:{ lang, series: st.data.series, strand: strandPath(st.slug, st.data.series), book: String(b.data.number) } });
+    }
+  }
+  return out;
+}
+const lang = Astro.params.lang as Lang;
+const seriesSlug = Astro.params.series as string;
+const s = (await getSeries(lang)).find(x => x.slug === seriesSlug)!;
+const strands = await getStrands(lang, seriesSlug);
+const st = strands.find(x => strandPath(x.slug, seriesSlug) === Astro.params.strand)!;
+const books = (await getBooks(lang, st.slug));
+const b = books.find(x => String(x.data.number) === Astro.params.book)!;
+const status = statusOf(b.data, lang);
+const code = bookCode(s.data.code, st.data.name, b.data.number);
+const paras = String(b.data.description || '').split(/\n\s*\n/).filter(Boolean);
+const specs: [string,string][] = [
+  [t(lang,'age'), b.data.age], [t(lang,'grade'), b.data.grade],
+  [t(lang,'pages'), String(b.data.pages||'')], [t(lang,'format'), b.data.format],
+  [t(lang,'binding'), b.data.binding], ['ISBN', b.data.isbn]
+];
+---
+<Base lang={lang} title={`${b.data.title || b.data.slogan} — ${s.data.name}`} description={b.data.slogan}
+      path={`series/${seriesSlug}/${Astro.params.strand}/${b.data.number}/`}>
+  <div class="wrap"><div class="crumb">
+    <a href={`/${lang}/series/`}>{t(lang,'series')}</a><span class="sp">/</span>
+    <a href={`/${lang}/series/${seriesSlug}/`}>{s.data.name}</a><span class="sp">/</span>
+    <span>{st.data.name} · {String(b.data.number).padStart(2,'0')}/{b.data.of}</span></div></div>
+
+  <div class="wrap btop">
+    <div>
+      <Cover code={code} name={b.data.title || b.data.slogan} pub={true} src={b.data.cover} i={b.data.number-1} big={true} />
+      <div class="shots"><span class="shot">spread 1</span><span class="shot">spread 2</span><span class="shot">spread 3</span></div>
+    </div>
+    <div class="bi">
+      <p class="lbl">{s.data.name} · {st.data.name} · {t(lang,'title')} {b.data.number} {t(lang,'of')} {b.data.of}</p>
+      {b.data.title
+        ? <h1 style="margin-block-start:.5rem">{b.data.title}</h1>
+        : <h1 style="margin-block-start:.5rem;color:var(--slate)">{t(lang,'titleTbd')}</h1>}
+      {b.data.slogan && <p style="font-family:var(--mono);font-size:var(--s-1);color:var(--gold-dp);margin-block-start:.7rem">{b.data.slogan}</p>}
+      <div class="dig" style="margin-block-start:1rem">
+        <span class="dchip" data-off={String(status.pending)} style={status.pending?'border-style:dashed':''}>{t(lang,status.key)}</span>
+      </div>
+      {paras.map(p => <p class="about">{p}</p>)}
+      <ul class="specs">{specs.map(([k,v]) => <li><span class="k">{k}</span><span class="v">{v || '—'}</span></li>)}</ul>
+      {(b.data.contents||[]).length > 0 &&
+        <div style="margin-block-start:2rem">
+          <p class="lbl">{t(lang,'whatsInside')}</p>
+          <ul class="bklist" style="margin-block-start:.7rem">
+            {(b.data.contents as any[]).map(c => typeof c === 'string'
+              ? <li><span class="off" style="opacity:1;color:var(--ink)"><span>{c}</span></span></li>
+              : <li><span class="off" style="opacity:1;color:var(--ink)"><span>{c.name}</span>
+                  {c.note && <span style="margin-inline-start:auto;color:var(--slate);font-size:var(--s--1);text-align:end">{c.note}</span>}</span></li>)}
+          </ul>
+        </div>}
+      <div class="acts">
+        <a class="btn" href={`/${lang}/contact/`}>{t(lang,'requestSchool')}</a>
+        <a class="btn g" href={`/${lang}/contact/`}>{t(lang,'samplePages')}</a>
+      </div>
+    </div>
+  </div>
+
+  <section class="band"><div class="wrap">
+    <div class="bh"><div><p class="lbl">{t(lang,'sequence')}</p>
+      <h2 style="font-size:var(--s-2);margin-block-start:.4rem">{st.data.name}{st.data.name_ar && <> · <span class="arx">{st.data.name_ar}</span></>}</h2>
+      <p class="note" style="margin-block-start:.6rem">{st.data.description}</p></div></div>
+    <div class="track">{books.map((y,k) => <>
+      {k > 0 && <span class="tbar"></span>}
+      <span class="tstep" data-on={String(y.data.number === b.data.number)} data-soon={String(!isPublished(y.data))}>
+        <span class="tdot">{String(y.data.number).padStart(2,'0')}</span>
+        <span style={isPublished(y.data)?'':'color:var(--slate)'}>{y.data.title || y.data.slogan || t(lang,'inPrep')}</span>
+      </span></>)}
+    </div>
+  </div></section>
+</Base>
