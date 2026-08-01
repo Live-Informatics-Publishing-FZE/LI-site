@@ -301,3 +301,17 @@ nav.mn a.lang{border:1px solid var(--ink);border-radius:999px;padding:.34rem .7r
 nav.mn a.lang:hover{background:var(--ink);color:var(--paper);border-block-end-color:var(--ink)}
 @media(max-width:860px){nav.mn a:not(.keep):not(.lang){display:none}}
 .acc summary a{color:inherit}
+
+/* --- правки от 01.08 --- */
+
+/* подписи под изображениями не показываем: alt остаётся в разметке для поиска и незрячих */
+.lead figcaption{display:none}
+
+/* если логотип серии загрузился, арабский дубль под ним не нужен —
+   иначе в плашке два элемента и логотип уезжает вверх */
+.plate img ~ .ph{display:none}
+
+/* изображения внутри текста статьи не должны вылезать за колонку */
+.art img{max-inline-size:100%;block-size:auto;display:block;border-radius:10px}
+.art p:has(img){margin-block:1.8rem}
+.art figure{margin-block:2rem}
