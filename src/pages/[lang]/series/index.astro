@@ -39,7 +39,7 @@ const books = await getBooks(lang);
           <span class="chev">+</span>
         </summary>
         <div class="acc-body">
-          <LeadImage src="" alt="" seed={s.slug} ratio="4/3" />
+          <LeadImage src={`/assets/series/${s.slug}-card.jpg`} alt={s.data.name} seed={s.slug} ratio="4/3" />
           <div class="txt">
             <p>{s.data.description}</p>
             {!empty && <a class="btn" href={`/${lang}/series/${s.slug}/`}>{t(lang,'goToSeries')} →</a>}

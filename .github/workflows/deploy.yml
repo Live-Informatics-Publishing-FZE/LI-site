@@ -6,38 +6,26 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  build-deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: npm
+
       - run: npm ci
       - run: npm run build
 
-      # Доставка на хостинг в ОАЭ. Раскомментировать нужный способ
-      # и добавить секреты в Settings → Secrets and variables → Actions.
-
-      # --- вариант FTP ---
-      # - name: Deploy over FTP
-      #   uses: SamKirkland/FTP-Deploy-Action@v4.3.5
-      #   with:
-      #     server: ${{ secrets.FTP_HOST }}
-      #     username: ${{ secrets.FTP_USER }}
-      #     password: ${{ secrets.FTP_PASSWORD }}
-      #     local-dir: ./dist/
-      #     server-dir: ${{ secrets.FTP_PATH }}
-
-      # --- вариант SSH / rsync ---
-      # - name: Deploy over SSH
-      #   run: |
-      #     echo "${{ secrets.SSH_KEY }}" > key && chmod 600 key
-      #     rsync -az --delete -e "ssh -i key -o StrictHostKeyChecking=no" \
-      #       dist/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:${{ secrets.SSH_PATH }}
-
-      - uses: actions/upload-artifact@v4
+      - name: Deploy to cPanel over FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
-          name: site
-          path: dist/
+          server: ${{ secrets.FTP_HOST }}
+          username: ${{ secrets.FTP_USER }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          protocol: ftps
+          local-dir: ./dist/
+          server-dir: ./
+          dangerous-clean-slate: false
