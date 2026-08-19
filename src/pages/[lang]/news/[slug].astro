@@ -16,6 +16,7 @@ const { entry } = Astro.props;
 const { Content } = await render(entry);
 const slug = String(entry.id).split('/').pop().replace(/\.md$/, '');
 const hasBody = String(entry.body || '').trim().length > 0;
+const leadSrc = entry.data.image || `/assets/news/${slug}.jpg`;
 ---
 <Base lang={lang} title={`${entry.data.title} — Live Informatics Publishing`}
       description={entry.data.body} path={`news/${slug}/`}>
@@ -27,7 +28,7 @@ const hasBody = String(entry.body || '').trim().length > 0;
     <p class="lbl">{t(lang,'news')}</p>
     <h1 style="margin-block-start:.5rem">{entry.data.title}</h1>
     <p class="meta"><span>{fdate(entry.data.date)}</span></p>
-    <LeadImage src={entry.data.image || ''} alt={entry.data.image_alt} seed={slug} />
+    <LeadImage src={leadSrc} alt={entry.data.image_alt} seed={slug} />
     <p style="font-size:var(--s-1);font-weight:500;color:var(--slate);margin-block-end:2rem">{entry.data.body}</p>
     {hasBody && <Content />}
     {entry.data.link &&
