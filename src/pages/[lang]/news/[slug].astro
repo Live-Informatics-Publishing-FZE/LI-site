@@ -1,0 +1,38 @@
+---
+import Base from '../../../layouts/Base.astro';
+import LeadImage from '../../../components/LeadImage.astro';
+import { t, langs, fdate, type Lang } from '../../../i18n/ui';
+import { getNews } from '../../../lib/data';
+import { render } from 'astro:content';
+export async function getStaticPaths(){
+  const out: any[] = [];
+  for (const lang of langs)
+    for (const n of await getNews(lang))
+      out.push({ params:{ lang, slug: n.slug }, props:{ entry: n } });
+  return out;
+}
+const lang = Astro.params.lang as Lang;
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const slug = String(entry.id).split('/').pop().replace(/\.md$/, '');
+const hasBody = String(entry.body || '').trim().length > 0;
+---
+<Base lang={lang} title={`${entry.data.title} — Live Informatics Publishing`}
+      description={entry.data.body} path={`news/${slug}/`}>
+  <div class="wrap"><div class="crumb">
+    <a href={`/${lang}/about/`}>{t(lang,'about')}</a><span class="sp">/</span>
+    <a href={`/${lang}/news/`}>{t(lang,'news')}</a><span class="sp">/</span>
+    <span>{fdate(entry.data.date)}</span></div></div>
+  <section style="padding-block:clamp(1.4rem,4vw,2.4rem)"><div class="wrap"><div class="art">
+    <p class="lbl">{t(lang,'news')}</p>
+    <h1 style="margin-block-start:.5rem">{entry.data.title}</h1>
+    <p class="meta"><span>{fdate(entry.data.date)}</span></p>
+    <LeadImage src={entry.data.image || ''} alt={entry.data.image_alt} seed={slug} />
+    <p style="font-size:var(--s-1);font-weight:500;color:var(--slate);margin-block-end:2rem">{entry.data.body}</p>
+    {hasBody && <Content />}
+    {entry.data.link &&
+      <div class="acts" style="margin-block-start:2.4rem">
+        <a class="btn" href={entry.data.link}>{t(lang,'goToSeries')} →</a>
+      </div>}
+  </div></div></section>
+</Base>

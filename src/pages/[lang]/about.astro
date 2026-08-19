@@ -51,7 +51,7 @@ const news = (await getNews(lang)).slice(0,3);
     <div class="bh"><div><p class="lbl">{t(lang,'news')}</p><h2>{d.news_heading}</h2></div>
       <a class="note" href={`/${lang}/news/`} style="color:var(--gold-dp)">{t(lang,'archive')} →</a></div>
     <div class="mos">{news.map((n,i) =>
-      <a class={`ncard ${i===0?'big':''}`} href={n.data.link || `/${lang}/news/`}>
+      <a class={`ncard ${i===0?'big':''}`} href={`/${lang}/news/${n.slug}/`}>
         <span class="lbl">{fdate(n.data.date)}</span><h4>{n.data.title}</h4><p>{(n.data as any).body}</p></a>)}</div>
   </div></section>
 
