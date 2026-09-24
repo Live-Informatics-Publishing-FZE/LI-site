@@ -1,22 +1,18 @@
 ---
-title: "تسعة تدريبات متاحة الآن من أصل اثني عشر"
+title: "Mouse Tamer - Nine trainers out of twelve"
 date: 2026-09-24
-lang: ar
-dir: rtl
-link: /ar/series/isharat/
+lang: en
+dir: ltr
+link: /en/series/isharat/
 image: ""
 image_alt: ""
-body: >
-  حدّثنا «مروّض الفأرة» إلى النسخة 0.23. صارت تسعة تدريبات متاحة، ثلاثة منها جديدة: «الخطة البديلة» و«رحلة سفاري!» و«الحقل الكامل».
+body: "We have updated Mouse Tamer to version 0.23. Nine trainers are now open, three of them new: Plan B, Safari Time! and Full House."
 ---
 
-حدّثنا «مروّض الفأرة» إلى النسخة 0.23. صارت تسعة تدريبات متاحة، ثلاثة منها جديدة: «الخطة البديلة» و«رحلة سفاري!» و«الحقل الكامل».
+We have updated Mouse Tamer to version 0.23. Nine trainers are now open, three of them new: Plan B, Safari Time! and Full House.
 
-كان الطفل حتى الآن يتمرّن على حركة واحدة في كلّ مرّة. أمّا في التدريبات الجديدة فيظهر الاختيار: الأهداف أربعة أنواع، ولكلّ نوع تعامل خاصّ — الأزرق نقرة بالزرّ الأيسر، والأخضر نقرة مزدوجة، والأصفر نقرة بالزرّ الأيمن، والرماديّ المشقوق لا يُلمس البتّة. في «الخطة البديلة» تبقى الأهداف ثابتة، وفي «رحلة سفاري!» تتحرّك، وفي «الحقل الكامل» يعمل الطفل على حقل من البطاقات تنكشف واحدة تلو الأخرى. لم تعد هذه مهارة حركيّة، بل قرارًا: أن يميّز أوّلًا ثمّ يختار.
+Until now the child practised one movement at a time. In the new trainers a choice appears: there are four kinds of target, and each has to be dealt with differently — click the blue one with the left button, the green one with a double click, the yellow one with the right button, and do not touch the cracked grey one at all. In Plan B the targets stand still, in Safari Time! they move, and in Full House the child works through a field of cards that open one at a time. This is no longer motor skill but decision: recognise first, then choose.
 
-وليس في الخطأ في الزرّ ما يخيف: نقطة واحدة تُخصم، ويبقى الهدف مكانه — ينتظر أن يصيبه الطفل صوابًا. ولا تظهر قائمة النظام عند النقر بالزرّ الأيمن في أيّ موضع: المتمرَّن عليه هو الضغط نفسه، لا التعامل مع القائمة.
+Getting the button wrong is nothing to fear. It costs one point, and the target stays where it is — waiting for the child to do it right. The system context menu never appears on a right click: what is being practised is the press itself, not working with a menu.
 
-يمكنكم الاطّلاع على الجديد على https://mouse.libooks.ae/ — والتطبيق مجاني. ولنا طلب واحد: إن كنتم تستعملون حاسوبًا محمولًا بلا فأرة خارجيّة، فتحقّقوا من عمل الزرّ الأيمن في «الخطة البديلة» واكتبوا إلينا على mail@libooks.ae. فهذا الموضع الوحيد الذي نعتمد فيه على إعدادات جهازكم.
-
-الملخّص، 217 знаков:
-حدّثنا «مروّض الفأرة»: صار تسعة تدريبات من اثني عشر متاحة، ثلاثة منها جديدة: «الخطة البديلة» و«رحلة سفاري!» و«الحقل الكامل». فيها لا ينقر الطفل فحسب، بل يختار الزرّ: الأيسر، أو النقر المزدوج، أو الأيمن. التطبيق مجاني.
+You can see what is new at https://mouse.libooks.ae/ — the app is free. And one request: if you are on a laptop with no external mouse, check whether the right button works in Plan B and write to us at mail@libooks.ae. It is the one place where we depend on your machine's settings.
