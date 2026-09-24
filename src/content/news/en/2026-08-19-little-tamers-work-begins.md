@@ -1,15 +1,10 @@
 ---
-title: "Work begins on Little Tamers"
+title: Work begins on Little Tamers
 date: 2026-08-19
-lang: en
-dir: ltr
-link: /en/series/isharat/
-image: ""
-image_alt: ""
-body: >
-  Work has begun on Little Tamers, the first strand in the Isharat series: a
-  two-part course for children aged 5 to 7 that brings together confident use of
-  the mouse and keyboard and the computational thinking which grows out of it.
+link: series/isharat/
+image: ''
+image_alt: ''
+summary: 'Work has begun on Little Tamers, the first strand in the Isharat series: a two-part course for children aged 5 to 7 that brings together confident use of the mouse and keyboard and the computational thinking which grows out of it.'
 ---
 
 Work has begun on Little Tamers, the first strand in the Isharat series. It is a two-part course for children aged 5 to 7: the Kindergarten and Early Childhood years, and the first two years of primary school — Years 1–2, Key Stage 1 in the British system.

@@ -1,13 +1,10 @@
 ---
-title: "Mouse Tamer is now open"
+title: Mouse Tamer is now open
 date: 2026-09-11
-lang: en
-dir: ltr
-link: /en/series/isharat/
-image: ""
-image_alt: ""
-body: >
-  We have published a working version of Mouse Tamer, the free app in the Little Tamers strand. Twelve trainers teach a child the mouse through play: no screen requires reading, and there is no such thing as losing. The version is not complete yet — we would be glad of your comments.
+link: series/isharat/
+image: ''
+image_alt: ''
+summary: 'We have published a working version of Mouse Tamer, the free app in the Little Tamers strand. Twelve trainers teach a child the mouse through play: no screen requires reading, and there is no such thing as losing. The version is not complete yet — we would be glad of your comments.'
 ---
 
 We have published a working version of Mouse Tamer — https://mouse.libooks.ae/. It is a free app in the Little Tamers strand, the digital companion to the printed course. The version is not complete yet, and we are opening it at this stage deliberately — to hear what people make of it before anything becomes final.

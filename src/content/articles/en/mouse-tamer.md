@@ -1,15 +1,13 @@
 ---
-title: "Mouse Tamer: how a child learns the mouse"
-seo_title: "Mouse Tamer: how a child learns the mouse — Live Informatics Publishing"
-seo_description: "A trainer that builds mouse skills one action at a time. No account, no advertising, no internet — and a result sheet that adds up to a portfolio."
+title: 'Mouse Tamer: how a child learns the mouse'
+seo_title: 'Mouse Tamer: how a child learns the mouse — Live Informatics Publishing'
+seo_description: A trainer that builds mouse skills one action at a time. No account, no advertising, no internet — and a result sheet that adds up to a portfolio.
 section: extra-materials
 audience: parents
 date: 2026-08-01
-lang: en
-dir: ltr
-image: ""
-image_alt: ""
-trainer_url: ""              # ОЖИДАЕТ адреса
+image: ''
+image_alt: ''
+trainer_url: ''
 ---
 
 A child masters a tablet unaided; a mouse, no. Between the hand travelling across a desk and the cursor travelling up a screen sits a transformation that has to be learned. Explaining it is not enough — it needs practice. Mouse Tamer builds that link piece by piece, one action at a time: the accurate click, the double click, the right button, dragging, selecting. Each action lives in its own trainer, and each trainer has four levels.

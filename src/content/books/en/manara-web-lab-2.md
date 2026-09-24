@@ -2,16 +2,14 @@
 strand: manara-web-lab
 number: 2
 of: 4
-lang: en
-dir: ltr
-title: ""
+title: ''
 status: in-preparation
-slogan: ""
-age: ""
-grade: ""
-pages: ""
-format: ""
-binding: ""
-isbn: ""
-description: ""
+slogan: ''
+age: ''
+grade: ''
+pages: ''
+format: ''
+binding: ''
+isbn: ''
+description: ''
 ---

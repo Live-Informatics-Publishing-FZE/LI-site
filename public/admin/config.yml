@@ -1,163 +1,215 @@
-# Sveltia CMS — все подписи по-русски, контент коммитится в git
+# Редактор сайта libooks.ae
+# Вход: libooks.ae/admin/ → «Войти с токеном доступа»
+# Сохранение сразу публикует: коммит в main → сборка → сайт через 2–3 минуты
+
 backend:
   name: github
-  repo: Live-Informatics-Publishing-FZE/libooks-site
+  repo: Live-Informatics-Publishing-FZE/LI-site
   branch: main
-  site_domain: libooks.ae
 
-publish_mode: editorial_workflow
-media_folder: "public/assets"
-public_folder: "/assets"
+media_folder: public/assets
+public_folder: /assets
+
+# Английская и арабская версии лежат в папках en/ и ar/ с одинаковыми именами.
+# Редактор показывает их рядом, в одной карточке.
+i18n:
+  structure: multiple_folders
+  locales: [en, ar]
+  default_locale: en
 
 collections:
-  - name: series
-    label: "Серии"
-    label_singular: "серия"
-    folder: "src/content/series"
-    path: "{{lang}}/{{slug}}"
-    create: true
-    identifier_field: name
-    summary: "{{name}} · {{lang}}"
-    fields:
-      - { name: lang, label: "Язык", widget: select, options: ["en","ar"] }
-      - { name: dir, label: "Направление письма", widget: hidden, default: "ltr" }
-      - { name: name, label: "Название латиницей", widget: string, hint: "Manara, Isharat, Qalam" }
-      - { name: name_ar, label: "Название по-арабски", widget: string }
-      - { name: code, label: "Код серии", widget: string, hint: "Три буквы: MNR, ISH, QLM" }
-      - { name: metaphor, label: "Метафора", widget: string, hint: "lighthouse, signals, pen" }
-      - { name: order, label: "Порядок вывода", widget: number, value_type: int, default: 1 }
-      - { name: logo, label: "Логотип", widget: image, required: false }
-      - { name: short, label: "Краткое описание", widget: text, hint: "До 200 знаков. Показывается на карточке" }
-      - { name: description, label: "Описание", widget: text, hint: "2–3 предложения. Раскрывающийся блок и шапка серии" }
-      - { name: seo_title, label: "SEO: заголовок", widget: string, required: false }
-      - { name: seo_description, label: "SEO: описание", widget: text, required: false }
 
-  - name: strands
-    label: "Линейки"
-    label_singular: "линейка"
-    folder: "src/content/strands"
-    path: "{{lang}}/{{slug}}"
+  # ───────────── НОВОСТИ ─────────────
+  - name: news
+    label: "Новости"
+    label_singular: "новость"
+    folder: src/content/news
+    i18n: true
     create: true
-    identifier_field: name
-    summary: "{{name}} · {{lang}}"
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    summary: "{{date}} · {{title}}"
+    sortable_fields: [date, title]
+    media_folder: /public/assets/news
+    public_folder: /assets/news
     fields:
-      - { name: lang, label: "Язык", widget: select, options: ["en","ar"] }
-      - { name: dir, label: "Направление письма", widget: hidden, default: "ltr" }
-      - { name: series, label: "Серия", widget: select, options: ["manara","isharat","qalam"] }
-      - { name: name, label: "Название латиницей", widget: string }
-      - { name: name_ar, label: "Название по-арабски", widget: string, required: false }
-      - { name: order, label: "Порядок вывода", widget: number, value_type: int, default: 1 }
-      - { name: stage, label: "Этап обучения", widget: string, required: false, hint: "Pre-school, School years — шкала обсуждается" }
-      - name: digital
-        label: "Цифровая часть"
-        widget: object
-        required: false
-        hint: "Не ставьте то, чего в продукте нет"
-        fields:
-          - { name: e_textbook, label: "Электронный учебник", widget: select, options: ["available","forthcoming"], required: false }
-          - { name: trainers, label: "Тренажёры", widget: select, options: ["available","forthcoming"], required: false }
-          - { name: ai_tutor, label: "ИИ-помощник", widget: select, options: ["available","forthcoming"], required: false }
-      - { name: systemic_problem, label: "Системная проблема", widget: text, required: false, hint: "До 400 знаков. Самый сильный блок на странице серии" }
-      - { name: description, label: "Описание", widget: text, hint: "2–3 предложения" }
+      - { name: title, label: "Заголовок", widget: string, i18n: true }
+      - { name: date, label: "Дата", widget: datetime, date_format: "YYYY-MM-DD", time_format: false, format: "YYYY-MM-DD", i18n: duplicate }
+      - { name: summary, label: "Выжимка", widget: text, i18n: true,
+          hint: "Одно-два предложения. Показывается на карточке на главной и в списке новостей" }
+      - { name: link, label: "Ссылка для кнопки внизу", widget: string, required: false, i18n: duplicate,
+          hint: "Без языка, например series/isharat/ — язык подставится сам. Пусто — кнопки не будет" }
+      - { name: image, label: "Изображение", widget: image, required: false, i18n: duplicate,
+          hint: "16:9, 1600 × 900, до 300 КБ. Пусто — фирменная заставка" }
+      - { name: image_alt, label: "Описание изображения", widget: string, required: false, i18n: true }
+      - { name: body, label: "Полный текст", widget: markdown, i18n: true }
 
-  - name: books
-    label: "Издания"
-    label_singular: "издание"
-    folder: "src/content/books"
-    path: "{{lang}}/{{slug}}"
-    create: true
-    identifier_field: title
-    summary: "{{strand}} {{number}} · {{lang}}"
-    fields:
-      - { name: lang, label: "Язык", widget: select, options: ["en","ar"] }
-      - { name: dir, label: "Направление письма", widget: hidden, default: "ltr" }
-      - { name: strand, label: "Линейка", widget: string, hint: "manara-web-lab, isharat-little-tamers" }
-      - { name: number, label: "Номер в линейке", widget: number, value_type: int }
-      - { name: of, label: "Всего в линейке", widget: number, value_type: int }
-      - { name: title, label: "Название", widget: string, required: false, hint: "Пусто — страница покажет пометку, что название не выбрано" }
-      - { name: slogan, label: "Слоган", widget: string, required: false }
-      - { name: status, label: "Статус", widget: select, required: false, options: ["available","forthcoming","in-preparation","out-of-print"], hint: "Пусто — на странице встанет пометка «статус не задан»" }
-      - { name: age, label: "Возраст", widget: string, required: false }
-      - { name: grade, label: "Класс", widget: string, required: false }
-      - { name: pages, label: "Страниц", widget: string, required: false }
-      - { name: format, label: "Формат", widget: string, required: false }
-      - { name: binding, label: "Переплёт", widget: string, required: false }
-      - { name: isbn, label: "ISBN", widget: string, required: false }
-      - { name: cover, label: "Обложка", widget: image, required: false, hint: "Пусто — обложка соберётся автоматически" }
-      - { name: description, label: "Описание", widget: text, required: false }
-      - name: contents
-        label: "Что внутри"
-        widget: list
-        required: false
-        fields:
-          - { name: name, label: "Пункт", widget: string }
-          - { name: note, label: "Пояснение", widget: string, required: false }
-
+  # ───────────── СТАТЬИ ─────────────
   - name: articles
     label: "Статьи и материалы"
     label_singular: "статья"
-    folder: "src/content/articles"
-    path: "{{lang}}/{{slug}}"
+    folder: src/content/articles
+    i18n: true
     create: true
-    identifier_field: title
-    summary: "{{title}} · {{lang}}"
+    summary: "{{title}}"
+    media_folder: /public/assets/articles
+    public_folder: /assets/articles
     fields:
-      - { name: lang, label: "Язык", widget: select, options: ["en","ar"] }
-      - { name: dir, label: "Направление письма", widget: hidden, default: "ltr" }
-      - { name: title, label: "Заголовок", widget: string }
+      - { name: title, label: "Заголовок", widget: string, i18n: true }
       - name: section
         label: "Раздел"
         widget: select
+        i18n: duplicate
         options:
           - { label: "Родителям · подсказки", value: "tips-for-parents" }
           - { label: "Родителям · материалы для детей", value: "extra-materials" }
           - { label: "Школам · методические материалы", value: "teaching-materials" }
           - { label: "Школам · статьи по методике", value: "methodology" }
-      - { name: audience, label: "Аудитория", widget: select, options: ["parents","schools"] }
-      - { name: date, label: "Дата", widget: datetime, date_format: "YYYY-MM-DD", time_format: false }
-      - { name: seo_description, label: "Подзаголовок", widget: text, hint: "Одно предложение. Идёт и на карточку, и в поисковую выдачу" }
-      - { name: seo_title, label: "SEO: заголовок", widget: string, required: false }
-      - { name: image, label: "Изображение", widget: image, required: false, hint: "Пусто — встанет фирменная заставка" }
-      - { name: image_alt, label: "Описание изображения", widget: string, required: false }
-      - { name: trainer_url, label: "Адрес тренажёра", widget: string, required: false }
-      - { name: body, label: "Текст", widget: markdown }
+      - name: audience
+        label: "Аудитория"
+        widget: select
+        i18n: duplicate
+        options:
+          - { label: "Родители", value: "parents" }
+          - { label: "Школы", value: "schools" }
+      - { name: date, label: "Дата", widget: datetime, date_format: "YYYY-MM-DD", time_format: false, format: "YYYY-MM-DD", i18n: duplicate }
+      - { name: seo_description, label: "Подзаголовок", widget: text, i18n: true,
+          hint: "Одно предложение. Идёт и под заголовок статьи, и в поисковую выдачу" }
+      - { name: seo_title, label: "Заголовок для поиска", widget: string, required: false, i18n: true,
+          hint: "Если пусто — берётся обычный заголовок" }
+      - { name: image, label: "Изображение", widget: image, required: false, i18n: duplicate,
+          hint: "16:9, 1600 × 900. Пусто — ищется файл с именем статьи, затем заставка" }
+      - { name: image_alt, label: "Описание изображения", widget: string, required: false, i18n: true }
+      - { name: trainer_url, label: "Адрес тренажёра", widget: string, required: false, i18n: duplicate }
+      - { name: body, label: "Текст статьи", widget: markdown, i18n: true }
 
-  - name: news
-    label: "Новости"
-    label_singular: "новость"
-    folder: "src/content/news"
-    path: "{{lang}}/{{year}}-{{month}}-{{day}}-{{slug}}"
+  # ───────────── ИЗДАНИЯ ─────────────
+  - name: books
+    label: "Издания"
+    label_singular: "издание"
+    folder: src/content/books
+    i18n: true
     create: true
-    identifier_field: title
-    summary: "{{date}} · {{title}}"
+    identifier_field: strand
+    summary: "{{strand}} · № {{number}}"
+    media_folder: /public/assets/covers
+    public_folder: /assets/covers
     fields:
-      - { name: lang, label: "Язык", widget: select, options: ["en","ar"] }
-      - { name: dir, label: "Направление письма", widget: hidden, default: "ltr" }
-      - { name: title, label: "Заголовок", widget: string }
-      - { name: date, label: "Дата", widget: datetime, date_format: "YYYY-MM-DD", time_format: false }
-      - { name: body, label: "Текст", widget: text, hint: "До 300 знаков" }
-      - { name: link, label: "Ссылка", widget: string, required: false, hint: "Куда ведёт карточка" }
-      - { name: image, label: "Изображение", widget: image, required: false }
-      - { name: image_alt, label: "Описание изображения", widget: string, required: false }
+      - name: strand
+        label: "Линейка"
+        widget: select
+        i18n: duplicate
+        options:
+          - { label: "Manara · Web Lab", value: "manara-web-lab" }
+          - { label: "Isharat · Little Tamers", value: "isharat-little-tamers" }
+      - { name: number, label: "Номер в линейке", widget: number, value_type: int, i18n: duplicate }
+      - { name: of, label: "Всего в линейке", widget: number, value_type: int, i18n: duplicate }
+      - { name: title, label: "Название", widget: string, required: false, i18n: true,
+          hint: "Пусто — на странице пометка «название не выбрано»" }
+      - { name: slogan, label: "Слоган", widget: string, required: false, i18n: true }
+      - name: status
+        label: "Статус"
+        widget: select
+        required: false
+        i18n: duplicate
+        hint: "Пусто — на странице пометка «статус не задан»"
+        options:
+          - { label: "В продаже", value: "available" }
+          - { label: "Готовится к выходу", value: "forthcoming" }
+          - { label: "В разработке", value: "in-preparation" }
+          - { label: "Не переиздаётся", value: "out-of-print" }
+      - { name: age, label: "Возраст", widget: string, required: false, i18n: duplicate }
+      - { name: grade, label: "Класс", widget: string, required: false, i18n: duplicate }
+      - { name: pages, label: "Страниц", widget: string, required: false, i18n: duplicate }
+      - { name: format, label: "Формат", widget: string, required: false, i18n: duplicate }
+      - { name: binding, label: "Переплёт", widget: string, required: false, i18n: duplicate }
+      - { name: isbn, label: "ISBN", widget: string, required: false, i18n: duplicate }
+      - { name: cover, label: "Обложка", widget: image, required: false, i18n: duplicate,
+          hint: "3:4, 1200 × 1600. Пусто — обложка собирается автоматически" }
+      - { name: description, label: "Описание", widget: text, required: false, i18n: true,
+          hint: "Абзацы разделяются пустой строкой" }
+      - name: contents
+        label: "Что внутри"
+        widget: list
+        required: false
+        i18n: true
+        fields:
+          - { name: name, label: "Пункт", widget: string }
+          - { name: note, label: "Пояснение", widget: string, required: false }
 
-  - name: pages
-    label: "Страницы"
-    folder: "src/content/pages"
-    path: "{{lang}}/{{slug}}"
+  # ───────────── ЛИНЕЙКИ ─────────────
+  - name: strands
+    label: "Линейки"
+    label_singular: "линейка"
+    folder: src/content/strands
+    i18n: true
+    create: true
+    summary: "{{name}}"
+    fields:
+      - name: series
+        label: "Серия"
+        widget: select
+        i18n: duplicate
+        options:
+          - { label: "Manara", value: "manara" }
+          - { label: "Isharat", value: "isharat" }
+          - { label: "Qalam", value: "qalam" }
+      - { name: name, label: "Название латиницей", widget: string, i18n: duplicate }
+      - { name: name_ar, label: "Название по-арабски", widget: string, required: false, i18n: duplicate }
+      - { name: order, label: "Порядок вывода", widget: number, value_type: int, i18n: duplicate }
+      - { name: stage, label: "Этап обучения", widget: string, required: false, i18n: true }
+      - name: digital
+        label: "Цифровая часть"
+        widget: object
+        required: false
+        i18n: duplicate
+        hint: "Не отмечайте то, чего в продукте нет"
+        fields:
+          - name: e_textbook
+            label: "Электронный учебник"
+            widget: select
+            required: false
+            options: [{ label: "Есть", value: "available" }, { label: "Готовится", value: "forthcoming" }]
+          - name: trainers
+            label: "Тренажёры"
+            widget: select
+            required: false
+            options: [{ label: "Есть", value: "available" }, { label: "Готовится", value: "forthcoming" }]
+          - name: ai_tutor
+            label: "ИИ-помощник"
+            widget: select
+            required: false
+            options: [{ label: "Есть", value: "available" }, { label: "Готовится", value: "forthcoming" }]
+      - { name: systemic_problem, label: "Системная проблема", widget: text, required: false, i18n: true,
+          hint: "До 400 знаков. Блок с золотой чертой на странице серии" }
+      - { name: description, label: "Описание", widget: text, i18n: true }
+
+  # ───────────── СЕРИИ ─────────────
+  - name: series
+    label: "Серии"
+    label_singular: "серия"
+    folder: src/content/series
+    i18n: true
     create: false
+    summary: "{{name}}"
+    media_folder: /public/assets/series
+    public_folder: /assets/series
     fields:
-      - { name: lang, label: "Язык", widget: select, options: ["en","ar"] }
-      - { name: title, label: "Заголовок", widget: string }
-      - { name: seo_title, label: "SEO: заголовок", widget: string, required: false }
-      - { name: seo_description, label: "SEO: описание", widget: text, required: false }
-      - { name: body, label: "Текст", widget: markdown, required: false }
+      - { name: name, label: "Название латиницей", widget: string, i18n: duplicate }
+      - { name: name_ar, label: "Название по-арабски", widget: string, i18n: duplicate }
+      - { name: code, label: "Код", widget: string, i18n: duplicate, hint: "Три буквы, идут в шифр издания" }
+      - { name: metaphor, label: "Метафора", widget: string, i18n: duplicate }
+      - { name: order, label: "Порядок вывода", widget: number, value_type: int, i18n: duplicate }
+      - { name: logo, label: "Логотип", widget: image, i18n: duplicate }
+      - { name: short, label: "Краткое описание", widget: text, i18n: true, hint: "До 200 знаков, на карточке" }
+      - { name: description, label: "Описание", widget: text, i18n: true, hint: "2–3 предложения" }
 
+  # ───────────── РЕКВИЗИТЫ ─────────────
   - name: singletons
-    label: "Реквизиты"
+    label: "Реквизиты и контакты"
     files:
       - name: organization
         label: "Данные организации"
-        file: "src/content/singletons/organization.yml"
+        file: src/content/singletons/organization.yml
         fields:
           - { name: legal_name, label: "Юридическое название", widget: string }
           - { name: legal_name_ar, label: "Название по-арабски", widget: string }

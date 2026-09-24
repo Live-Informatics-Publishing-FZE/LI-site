@@ -1,14 +1,12 @@
 ---
-title: "The teacher's kit: what has changed"
-seo_title: "The teacher's kit: what has changed — Live Informatics Publishing"
-seo_description: "A modern kit is measured not by how much material it holds but by how much preparation it removes — and why teacher and pupil are becoming a triad."
+title: 'The teacher''s kit: what has changed'
+seo_title: 'The teacher''s kit: what has changed — Live Informatics Publishing'
+seo_description: A modern kit is measured not by how much material it holds but by how much preparation it removes — and why teacher and pupil are becoming a triad.
 section: teaching-materials
 audience: schools
 date: 2026-08-01
-lang: en
-dir: ltr
-image: ""
-image_alt: ""
+image: ''
+image_alt: ''
 ---
 
 A classic kit was three things: a textbook, a workbook, a teacher's book. And the teacher's book was usually a book of recommendations — broad aims, a rough allocation of hours, an instruction to consolidate the material. The lesson itself the teacher wrote. Today that is the most expensive part of the job: not explaining the topic but assembling the lesson. A modern kit is therefore measured not by how much material it contains but by how much preparation it removes. A useful teacher's book is a lesson ready to teach: the aim, the sequence, what to say, where a child will stumble, what to give the ones who finish early. Barak Rosenshine once reduced working practice to about ten principles — a short review at the start, small steps, guided practice, constant checking for understanding, scaffolds that are later withdrawn. A kit either helps a teacher do this or leaves them alone with it.

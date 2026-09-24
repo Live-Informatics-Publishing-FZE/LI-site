@@ -17,9 +17,11 @@ const { Content } = await render(entry);
 const slug = String(entry.id).split('/').pop().replace(/\.md$/, '');
 const hasBody = String(entry.body || '').trim().length > 0;
 const leadSrc = entry.data.image || `/assets/news/${slug}.jpg`;
+const linkPath = entry.data.link ? String(entry.data.link).replace(/^\/?(en|ar)\//,'').replace(/^\//,'') : '';
+const linkHref = linkPath ? `/${lang}/${linkPath}` : '';
 ---
 <Base lang={lang} title={`${entry.data.title} — Live Informatics Publishing`}
-      description={entry.data.body} path={`news/${slug}/`}>
+      description={entry.data.summary} path={`news/${slug}/`}>
   <div class="wrap"><div class="crumb">
     <a href={`/${lang}/about/`}>{t(lang,'about')}</a><span class="sp">/</span>
     <a href={`/${lang}/news/`}>{t(lang,'news')}</a><span class="sp">/</span>
@@ -29,11 +31,11 @@ const leadSrc = entry.data.image || `/assets/news/${slug}.jpg`;
     <h1 style="margin-block-start:.5rem">{entry.data.title}</h1>
     <p class="meta"><span>{fdate(entry.data.date)}</span></p>
     <LeadImage src={leadSrc} alt={entry.data.image_alt} seed={slug} />
-    <p style="font-size:var(--s-1);font-weight:500;color:var(--slate);margin-block-end:2rem">{entry.data.body}</p>
+    <p style="font-size:var(--s-1);font-weight:500;color:var(--slate);margin-block-end:2rem">{entry.data.summary}</p>
     {hasBody && <Content />}
-    {entry.data.link &&
+    {linkHref &&
       <div class="acts" style="margin-block-start:2.4rem">
-        <a class="btn" href={entry.data.link}>{t(lang,'goToSeries')} →</a>
+        <a class="btn" href={linkHref}>{t(lang,'goToSeries')} →</a>
       </div>}
   </div></div></section>
 </Base>

@@ -1,14 +1,12 @@
 ---
-title: "Everyone can swipe. Almost no one can type"
-seo_title: "Everyone can swipe. Almost no one can type — Live Informatics Publishing"
-seo_description: "A touchscreen is direct manipulation; a mouse is not. Why fine motor skill at five predicts school attainment, and why schools sit between the two."
+title: Everyone can swipe. Almost no one can type
+seo_title: Everyone can swipe. Almost no one can type — Live Informatics Publishing
+seo_description: A touchscreen is direct manipulation; a mouse is not. Why fine motor skill at five predicts school attainment, and why schools sit between the two.
 section: methodology
 audience: schools
 date: 2026-08-01
-lang: en
-dir: ltr
-image: ""
-image_alt: ""
+image: ''
+image_alt: ''
 ---
 
 A five-year-old finds the video they want in seconds, then arrives in Year One unable to land the cursor on a button. There is no contradiction here. A touchscreen is direct manipulation: the finger touches exactly what the eye is looking at. A mouse works differently. The hand travels horizontally across a desk, the cursor travels vertically up a screen, and between them sits a transformation that has to be learned. A keyboard adds another layer — the link between a letter on the screen and a place under a finger you cannot see. Fluency in the first says nothing about the second. The "digital native" was taken apart in the late 2000s: there were no data behind the idea, and international comparisons of computer and information literacy show the same thing year after year — the proportion of pupils who can confidently do anything beyond a browser and a messaging app is small everywhere.

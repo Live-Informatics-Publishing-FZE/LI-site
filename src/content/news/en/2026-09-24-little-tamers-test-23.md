@@ -1,12 +1,10 @@
 ---
-title: "Mouse Tamer - Nine trainers out of twelve"
+title: Mouse Tamer - Nine trainers out of twelve
 date: 2026-09-24
-lang: en
-dir: ltr
-link: /en/series/isharat/
-image: ""
-image_alt: ""
-body: "We have updated Mouse Tamer to version 0.23. Nine trainers are now open, three of them new: Plan B, Safari Time! and Full House."
+link: series/isharat/
+image: ''
+image_alt: ''
+summary: 'We have updated Mouse Tamer to version 0.23. Nine trainers are now open, three of them new: Plan B, Safari Time! and Full House.'
 ---
 
 We have updated Mouse Tamer to version 0.23. Nine trainers are now open, three of them new: Plan B, Safari Time! and Full House.

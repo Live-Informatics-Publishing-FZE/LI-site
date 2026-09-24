@@ -1,14 +1,12 @@
 ---
-title: "Ban it or negotiate"
-seo_title: "Ban it or negotiate — Live Informatics Publishing"
-seo_description: "Both sides of the screen-time argument, and the compromise we think workable: not half an hour a day, but a distinction — is the child consuming or making?"
+title: Ban it or negotiate
+seo_title: Ban it or negotiate — Live Informatics Publishing
+seo_description: 'Both sides of the screen-time argument, and the compromise we think workable: not half an hour a day, but a distinction — is the child consuming or making?'
 section: tips-for-parents
 audience: parents
 date: 2026-08-01
-lang: en
-dir: ltr
-image: ""
-image_alt: ""
+image: ''
+image_alt: ''
 ---
 
 Since the Stone Age, human beings have put outside themselves whatever they lack against their neighbours on the planet. A knife instead of claws, a hide instead of fur, fire instead of warm blood, a wheel instead of stamina. Writing was the same move applied to memory, and it produced the first recorded panic. In Plato's Phaedrus, King Thamus answers the inventor of writing: people will stop exercising memory, and will seem to know without knowing. The objection is not stupid, and it is partly right — we do hold less by heart. But the gain turned out to be incommensurate with the loss. Everything since has gone round the same circle: novels corrupted the young, the telephone destroyed conversation, television destroyed imagination, video games destroyed all of it at once. Amy Orben has described this as a recurring cycle: alarm, a wave of research, a fading, a new technology, a new alarm.

@@ -2,7 +2,7 @@ import { getCollection } from 'astro:content';
 import type { Lang } from '../i18n/ui';
 
 const byLang = <T extends { data: { lang: string } }>(items: T[], lang: Lang) =>
-  items.filter(i => i.data.lang === lang);
+  items.filter(i => String(i.id).startsWith(`${lang}/`));
 
 export const slugOf = (id: string) => id.split('/').pop()!.replace(/\.md$/, '');
 
