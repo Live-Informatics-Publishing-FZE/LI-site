@@ -123,11 +123,12 @@ collections:
           - { label: "Не переиздаётся", value: "out-of-print" }
       - { name: age, label: "Возраст", widget: string, required: false, i18n: duplicate }
       - { name: grade, label: "Класс", widget: string, required: false, i18n: duplicate }
-      - { name: pages, label: "Страниц", widget: string, required: false, i18n: duplicate }
+      - { name: pages, label: "Страниц", widget: string, required: false, i18n: true }
       - { name: format, label: "Формат", widget: string, required: false, i18n: duplicate }
       - { name: binding, label: "Переплёт", widget: string, required: false, i18n: duplicate }
-      - { name: isbn, label: "ISBN", widget: string, required: false, i18n: duplicate }
-      - { name: cover, label: "Обложка", widget: image, required: false, i18n: duplicate,
+      - { name: isbn, label: "ISBN", widget: string, required: false, i18n: true,
+          hint: "У каждого языкового издания свой номер" }
+      - { name: cover, label: "Обложка", widget: image, required: false, i18n: true,
           hint: "3:4, 1200 × 1600. Пусто — обложка собирается автоматически" }
       - { name: description, label: "Описание", widget: text, required: false, i18n: true,
           hint: "Абзацы разделяются пустой строкой" }
