@@ -94,13 +94,17 @@ collections:
     media_folder: /public/assets/covers
     public_folder: /assets/covers
     fields:
+      # Список берётся из коллекции «Линейки»: новая линейка появляется здесь сама,
+      # править этот блок при её добавлении не нужно.
       - name: strand
         label: "Линейка"
-        widget: select
+        widget: relation
+        collection: strands
+        value_field: "{{slug}}"
+        display_fields: [name]
+        search_fields: [name]
         i18n: duplicate
-        options:
-          - { label: "Manara · Web Lab", value: "manara-web-lab" }
-          - { label: "Isharat · Little Tamers", value: "isharat-little-tamers" }
+        hint: "Начните печатать название линейки"
       - { name: number, label: "Номер в линейке", widget: number, value_type: int, i18n: duplicate }
       - { name: of, label: "Всего в линейке", widget: number, value_type: int, i18n: duplicate }
       - { name: title, label: "Название", widget: string, required: false, i18n: true,
