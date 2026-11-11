@@ -139,7 +139,7 @@ collections:
         max: 6
         add_to_top: false
         hint: "Кнопка «Добавить разворот» под списком. 4:3, 1200 × 900. У каждого языка свои"
-        field: { name: image, label: "Картинка", widget: image }
+        field: { name: image, label: "Картинка", widget: image, i18n: true }
       - { name: description, label: "Описание", widget: text, required: false, i18n: true,
           hint: "Абзацы разделяются пустой строкой" }
       - name: contents
