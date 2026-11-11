@@ -135,10 +135,11 @@ collections:
         widget: list
         required: false
         i18n: true
-        hint: "Показываются под обложкой. 4:3, 1200 × 900. У каждого языка свои"
-        fields:
-          - { name: image, label: "Картинка", widget: image }
-          - { name: alt, label: "Описание картинки", widget: string, required: false }
+        min: 0
+        max: 6
+        add_to_top: false
+        hint: "Кнопка «Добавить разворот» под списком. 4:3, 1200 × 900. У каждого языка свои"
+        field: { name: image, label: "Картинка", widget: image }
       - { name: description, label: "Описание", widget: text, required: false, i18n: true,
           hint: "Абзацы разделяются пустой строкой" }
       - name: contents
