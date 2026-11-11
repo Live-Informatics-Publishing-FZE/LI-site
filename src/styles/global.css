@@ -249,7 +249,7 @@ html[dir=rtl] .problem{border-radius:10px 0 0 10px}
 .shot.f{border-style:solid;overflow:hidden;padding:0;background:var(--paper)}
 .shot.f img{inline-size:100%;block-size:100%;object-fit:cover;display:block}
 button.shot.f{padding:0;cursor:zoom-in;font:inherit;color:inherit}
-.lb{position:fixed;inset:0;z-index:60;background:rgba(10,22,40,.74);overflow:auto;padding:2.5rem 1rem;display:flex;align-items:flex-start;justify-content:center}
+.lb{position:fixed;inset:0;z-index:60;background:rgba(10,22,40,.74);overflow:auto;padding:5rem 1rem 3rem;display:flex;align-items:flex-start;justify-content:center}
 .lb[hidden]{display:none}
 .lb-in{position:relative;inline-size:min(800px,100%)}
 .lb-in img{inline-size:100%;block-size:auto;display:block;border-radius:8px;background:var(--paper);box-shadow:0 12px 44px rgba(0,0,0,.4)}
