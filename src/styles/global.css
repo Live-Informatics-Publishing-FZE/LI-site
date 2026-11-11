@@ -246,6 +246,8 @@ html[dir=rtl] .problem{border-radius:10px 0 0 10px}
 .bigcv .tt{font-size:clamp(1.1rem,3vw,1.5rem)}
 .shots{display:grid;grid-template-columns:repeat(3,1fr);gap:.55rem;margin-block-start:.65rem}
 .shot{aspect-ratio:4/3;border:1px dashed var(--line);border-radius:6px;background:var(--paper-2);display:grid;place-items:center;font-family:var(--mono);font-size:.58rem;letter-spacing:.07em;text-transform:uppercase;color:var(--slate)}
+.shot.f{border-style:solid;overflow:hidden;padding:0;background:var(--paper)}
+.shot.f img{inline-size:100%;block-size:100%;object-fit:cover;display:block}
 .bi h1{font-size:var(--s-3);max-inline-size:24ch}
 .bi .t-ar{font-family:var(--ar);font-size:var(--s-2);color:var(--c);margin-block-start:.4rem;font-weight:500;line-height:1.35}
 .bi .about{color:var(--slate);font-size:var(--s-1);line-height:1.5;margin-block-start:1.2rem;max-inline-size:52ch}

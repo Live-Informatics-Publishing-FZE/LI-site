@@ -39,6 +39,7 @@ const books = defineCollection({
     format: z.string().optional().default(''), binding: z.string().optional().default(''),
     isbn: z.string().optional().default(''),
     cover: z.string().optional().default(''),
+    spreads: z.array(z.union([z.string(), loose])).optional().default([]),
     description: z.string().optional().default(''),
     contents: z.array(z.union([z.string(), loose])).optional().default([])
   }).passthrough()

@@ -27,6 +27,9 @@ const b = books.find(x => String(x.data.number) === Astro.params.book)!;
 const status = statusOf(b.data, lang);
 const code = bookCode(s.data.code, st.data.name, b.data.number);
 const paras = String(b.data.description || '').split(/\n\s*\n/).filter(Boolean);
+const spreads = ((b.data.spreads || []) as any[])
+  .map(x => typeof x === 'string' ? { image: x, alt: '' } : x)
+  .filter(x => x && x.image);
 const specs: [string,string][] = [
   [t(lang,'age'), b.data.age], [t(lang,'grade'), b.data.grade],
   [t(lang,'pages'), String(b.data.pages||'')], [t(lang,'format'), b.data.format],
@@ -43,7 +46,12 @@ const specs: [string,string][] = [
   <div class="wrap btop">
     <div>
       <Cover code={code} name={b.data.title || b.data.slogan} pub={true} src={b.data.cover} i={b.data.number-1} big={true} />
-      <div class="shots"><span class="shot">spread 1</span><span class="shot">spread 2</span><span class="shot">spread 3</span></div>
+      <div class="shots">
+        {spreads.length > 0
+          ? spreads.map((sp:any) => <a class="shot f" href={sp.image} target="_blank" rel="noopener">
+              <img src={sp.image} alt={sp.alt || ''} loading="lazy" /></a>)
+          : [1,2,3].map(n => <span class="shot">spread {n}</span>)}
+      </div>
     </div>
     <div class="bi">
       <p class="lbl">{s.data.name} · {st.data.name} · {t(lang,'title')} {b.data.number} {t(lang,'of')} {b.data.of}</p>
