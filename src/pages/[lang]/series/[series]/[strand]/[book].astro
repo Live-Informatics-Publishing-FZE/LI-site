@@ -48,8 +48,8 @@ const specs: [string,string][] = [
       <Cover code={code} name={b.data.title || b.data.slogan} pub={true} src={b.data.cover} i={b.data.number-1} big={true} />
       <div class="shots">
         {spreads.length > 0
-          ? spreads.map((sp:any) => <a class="shot f" href={sp.image} target="_blank" rel="noopener">
-              <img src={sp.image} alt={sp.alt || ''} loading="lazy" /></a>)
+          ? spreads.map((sp:any) => <button class="shot f" type="button" data-full={sp.image} data-alt={sp.alt || ''}>
+              <img src={sp.image} alt={sp.alt || ''} loading="lazy" /></button>)
           : [1,2,3].map(n => <span class="shot">spread {n}</span>)}
       </div>
     </div>
@@ -93,4 +93,36 @@ const specs: [string,string][] = [
       </span></>)}
     </div>
   </div></section>
+  <div class="lb" id="lb" hidden>
+    <div class="lb-in" role="dialog" aria-modal="true">
+      <button class="lb-x" id="lb-x" type="button" aria-label="×">&#215;</button>
+      <img id="lb-img" src="" alt="" />
+    </div>
+  </div>
+
+  <script is:inline>
+    (function () {
+      var lb = document.getElementById('lb');
+      var img = document.getElementById('lb-img');
+      if (!lb || !img) return;
+      function open(src, alt) {
+        img.src = src; img.alt = alt || '';
+        lb.hidden = false; lb.scrollTop = 0;
+        document.body.style.overflow = 'hidden';
+      }
+      function close() {
+        lb.hidden = true; img.src = '';
+        document.body.style.overflow = '';
+      }
+      Array.prototype.forEach.call(document.querySelectorAll('.shot.f'), function (el) {
+        el.addEventListener('click', function () { open(el.dataset.full, el.dataset.alt); });
+      });
+      lb.addEventListener('click', function (e) {
+        if (e.target === lb || e.target.id === 'lb-x') close();
+      });
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && !lb.hidden) close();
+      });
+    })();
+  </script>
 </Base>

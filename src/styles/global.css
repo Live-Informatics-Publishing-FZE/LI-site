@@ -248,6 +248,12 @@ html[dir=rtl] .problem{border-radius:10px 0 0 10px}
 .shot{aspect-ratio:4/3;border:1px dashed var(--line);border-radius:6px;background:var(--paper-2);display:grid;place-items:center;font-family:var(--mono);font-size:.58rem;letter-spacing:.07em;text-transform:uppercase;color:var(--slate)}
 .shot.f{border-style:solid;overflow:hidden;padding:0;background:var(--paper)}
 .shot.f img{inline-size:100%;block-size:100%;object-fit:cover;display:block}
+button.shot.f{padding:0;cursor:zoom-in;font:inherit;color:inherit}
+.lb{position:fixed;inset:0;z-index:60;background:rgba(10,22,40,.74);overflow:auto;padding:2.5rem 1rem;display:flex;align-items:flex-start;justify-content:center}
+.lb[hidden]{display:none}
+.lb-in{position:relative;inline-size:min(800px,100%)}
+.lb-in img{inline-size:100%;block-size:auto;display:block;border-radius:8px;background:var(--paper);box-shadow:0 12px 44px rgba(0,0,0,.4)}
+.lb-x{position:absolute;inset-block-start:-1rem;inset-inline-end:-1rem;inline-size:2.1rem;block-size:2.1rem;border-radius:50%;border:1px solid var(--line);background:var(--paper);color:var(--ink);font-size:1.15rem;line-height:1;cursor:pointer;display:grid;place-items:center;padding:0}
 .bi h1{font-size:var(--s-3);max-inline-size:24ch}
 .bi .t-ar{font-family:var(--ar);font-size:var(--s-2);color:var(--c);margin-block-start:.4rem;font-weight:500;line-height:1.35}
 .bi .about{color:var(--slate);font-size:var(--s-1);line-height:1.5;margin-block-start:1.2rem;max-inline-size:52ch}
