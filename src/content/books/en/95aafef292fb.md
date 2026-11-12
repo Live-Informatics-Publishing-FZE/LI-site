@@ -7,7 +7,7 @@ slogan: Film Novellas and Stories
 status: available
 age: 16+
 grade: ''
-pages: ''
+pages: '104'
 format: 5,5×8,5″
 binding: ''
 isbn: '9789948523611'

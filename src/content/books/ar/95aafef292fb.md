@@ -7,7 +7,7 @@ slogan: سينمائية وقصص قصيرة
 status: ''
 age: ''
 grade: ''
-pages: ''
+pages: '104'
 format: 5,5×8,5″
 binding: ''
 isbn: ''
