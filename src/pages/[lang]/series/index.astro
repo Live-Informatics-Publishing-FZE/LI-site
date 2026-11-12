@@ -18,9 +18,8 @@ const books = await getBooks(lang);
     <h1 style="font-size:var(--s-3);margin-block-start:.5rem;max-inline-size:24ch">{d.title}</h1>
   </div></section>
 
-  <section class="band"><div class="wrap idea">
-    <LeadImage src={d.image} alt={d.image_alt} seed="series-intro" ratio="3/4" />
-    <p style="font-size:var(--s-1);line-height:1.55">{d.intro}</p>
+  <section class="band"><div class="wrap">
+    <p style="font-size:var(--s-1);line-height:1.55;max-inline-size:62ch">{d.intro}</p>
   </div></section>
 
   <section class="band"><div class="wrap">

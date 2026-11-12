@@ -3,6 +3,11 @@ import { glob, file } from 'astro/loaders';
 
 const loose = z.object({}).passthrough();
 
+// Редактор пишет null в поля, которые оставили пустыми. Приводим null к значению по умолчанию,
+// иначе сборка падает на первой же такой записи.
+const nn = <T extends z.ZodTypeAny>(schema: T, dflt: any) =>
+  z.preprocess(v => (v === null || v === undefined ? dflt : v), schema) as unknown as T;
+
 const series = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/series' }),
   schema: z.object({
@@ -19,9 +24,9 @@ const strands = defineCollection({
   schema: z.object({
     series: z.string(), name: z.string(), name_ar: z.string().optional().default(''),
     order: z.number().default(99), lang: z.enum(['en','ar']).optional(),
-    stage: z.string().optional().default(''),
-    digital: z.record(z.string()).optional().default({}),
-    systemic_problem: z.string().optional().default(''),
+    stage: nn(z.string().optional().default(''), ''),
+    digital: nn(z.record(z.string()).optional().default({}), {}),
+    systemic_problem: nn(z.string().optional().default(''), ''),
     description: z.string().optional()
   }).passthrough()
 });
@@ -31,17 +36,17 @@ const books = defineCollection({
   schema: z.object({
     strand: z.string(), number: z.number(), of: z.number(),
     lang: z.enum(['en','ar']).optional(),
-    title: z.string().optional().default(''),
-    status: z.string().optional().default(''),
-    slogan: z.string().optional().default(''),
-    age: z.string().optional().default(''), grade: z.string().optional().default(''),
-    pages: z.union([z.string(), z.number()]).optional().default(''),
-    format: z.string().optional().default(''), binding: z.string().optional().default(''),
-    isbn: z.string().optional().default(''),
-    cover: z.string().optional().default(''),
-    spreads: z.array(z.union([z.string(), loose])).optional().default([]),
-    description: z.string().optional().default(''),
-    contents: z.array(z.union([z.string(), loose])).optional().default([])
+    title: nn(z.string().optional().default(''), ''),
+    status: nn(z.string().optional().default(''), ''),
+    slogan: nn(z.string().optional().default(''), ''),
+    age: nn(z.string().optional().default(''), ''), grade: nn(z.string().optional().default(''), ''),
+    pages: nn(z.union([z.string(), z.number()]).optional().default(''), ''),
+    format: nn(z.string().optional().default(''), ''), binding: nn(z.string().optional().default(''), ''),
+    isbn: nn(z.string().optional().default(''), ''),
+    cover: nn(z.string().optional().default(''), ''),
+    spreads: nn(z.array(z.union([z.string(), loose])).optional().default([]), []),
+    description: nn(z.string().optional().default(''), ''),
+    contents: nn(z.array(z.union([z.string(), loose])).optional().default([]), [])
   }).passthrough()
 });
 
@@ -52,9 +57,9 @@ const articles = defineCollection({
     seo_description: z.string().optional().default(''),
     section: z.string(), audience: z.string(),
     date: z.coerce.date(), lang: z.enum(['en','ar']).optional(),
-    image: z.string().optional().default(''),
-    image_alt: z.string().optional().default(''),
-    trainer_url: z.string().optional().default('')
+    image: nn(z.string().optional().default(''), ''),
+    image_alt: nn(z.string().optional().default(''), ''),
+    trainer_url: nn(z.string().optional().default(''), '')
   }).passthrough()
 });
 
@@ -62,8 +67,8 @@ const news = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/news' }),
   schema: z.object({
     title: z.string(), date: z.coerce.date(), lang: z.enum(['en','ar']).optional(),
-    summary: z.string().optional().default(''),
-    link: z.string().optional().default('')
+    summary: nn(z.string().optional().default(''), ''),
+    link: nn(z.string().optional().default(''), '')
   }).passthrough()
 });
 
